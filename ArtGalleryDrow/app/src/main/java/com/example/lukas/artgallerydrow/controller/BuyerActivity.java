@@ -1,4 +1,4 @@
-package com.example.lukas.artgallerydrow;
+package com.example.lukas.artgallerydrow.controller;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.lukas.artgallerydrow.R;
 
 public class BuyerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
