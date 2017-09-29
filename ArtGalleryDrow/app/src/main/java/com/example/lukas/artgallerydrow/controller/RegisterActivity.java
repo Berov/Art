@@ -166,15 +166,27 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent();
-                intent.putExtra("address",txtAddress.getText().toString());
-                intent.putExtra("user",txtUser.getText().toString());
+
                 intent.putExtra("email",txtEmail.getText().toString());
                 intent.putExtra("pass",txtPass.getEditText().getText().toString());
                 intent.putExtra("type", radioButton.getText().toString());
+
+                String address = txtAddress.getText().toString();
+                String user = txtUser.getText().toString();
+                String email = txtEmail.getText().toString();
+                String pass = txtPass.getEditText().getText().toString();
+                String type = radioButton.getText().toString();
+
+                saveData(address,user, email, pass, type);
                 setResult(RESULT_CODE_REG_OK,intent);
                 finish();
             }
         });
+    }
+
+    public void saveData(String addressString, String userString, String emailString, String pass, String type) {
+        BackgroundDBTasks dbTask = new BackgroundDBTasks(this);
+        dbTask.execute("addNewUser", null,addressString, userString, emailString, pass, type, 1000.00);
     }
 
     private void cancelClick() {

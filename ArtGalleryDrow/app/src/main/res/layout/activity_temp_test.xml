@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.example.lukas.artgallerydrow.controller.TempTestActivity">
+
+    <Button
+        android:id="@+id/btnGetAllTypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ShowAllTypes" />
+
+    <Button
+        android:id="@+id/btnGetAllUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ShowUsers" />
+
+    <Button
+        android:id="@+id/btnGetAllSubTypes"
+        android:text="get all subtypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
