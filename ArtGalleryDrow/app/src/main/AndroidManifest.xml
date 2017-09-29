@@ -20,7 +20,9 @@
             android:name=".controller.BuyerActivity"
             android:label="@string/title_activity_buyer"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".controller.RegisterActivity"></activity>
+        <activity android:name=".controller.RegisterActivity" />
+        <activity android:name=".controller.SellerActivity" />
+        <activity android:name=".controller.TempTestActivity"></activity>
     </application>
 
 </manifest>

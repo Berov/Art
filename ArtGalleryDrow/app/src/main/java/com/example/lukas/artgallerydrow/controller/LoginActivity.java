@@ -1,6 +1,7 @@
 package com.example.lukas.artgallerydrow.controller;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +20,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtEmailLogin;
     TextInputLayout txtPassLogin;
 
-    String userString, passString, typeString, emailString, addressString;
     Button btnTestSelect, btnLogin;
 
     @Override
@@ -34,13 +34,89 @@ public class LoginActivity extends AppCompatActivity {
         btnTestSelect = (Button) findViewById(R.id.testSelect);
         btnLogin = (Button) findViewById(R.id.btnLogin);
 
-
+        sendDataForResult();
+        testView();
         signUpClick();
 
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RegisterActivity.RESULT_CODE_CANCELED) {
+            Toast.makeText(LoginActivity.this,"Register canceled!!!",Toast.LENGTH_LONG).show();
+        }
+        if (resultCode == RegisterActivity.RESULT_CODE_REG_OK) {
+            if (data != null) {
+                txtEmailLogin.setText(data.getStringExtra("email"));
+                txtPassLogin.getEditText().setText(data.getStringExtra("pass"));
+            } else {
+                Toast.makeText(LoginActivity.this, "Somethings wrong with data!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
+    public void sendDataForResult() {
+        //TODO tuk shte se izprashta informaciqta ot login formata za proverka dali ima takuv potrebitel v bazata
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean flag = false;
+                String type = "";
+                String nameUser = "";
+                String email = "";
+                DBOperations dbOper = new DBOperations(LoginActivity.this);
+                Cursor res = dbOper.testGetUserInfo();
+                if (res.getCount() == 0) {
+                    Toast.makeText(LoginActivity.this, "Failed connection with database!",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                while (res.moveToNext()) {
+
+                    if(txtEmailLogin.getText().toString().equals(res.getString(3)) && txtPassLogin.getEditText().getText().toString().equals(res.getString(4))){
+                        flag = true;
+                        nameUser = res.getString(2);
+                        email = res.getString(3);
+                        type = res.getString(5);
+                        break;
+                    }
+
+                }
+                if(flag) {
+                    if(type.equals("Seller")){
+                        Intent intent = new Intent(LoginActivity.this,SellerActivity.class);
+                        intent.putExtra("userType",type);
+                        intent.putExtra("User", nameUser);
+                        intent.putExtra("email", email);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Intent intent = new Intent(LoginActivity.this,BuyerActivity.class);
+                        intent.putExtra("userType",type);
+                        intent.putExtra("User", nameUser);
+                        intent.putExtra("email", email);
+                        startActivity(intent);
+                        finish();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Invalid username or password!!", Toast.LENGTH_LONG).show();
+                    txtPassLogin.getEditText().setText("");
+                }
+            }
+        });
+    }
+
+    public void testView() {
+        btnTestSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // test to access user profile activity
+                Intent intent2 = new Intent(LoginActivity.this,TempTestActivity.class);
+                startActivity(intent2);
+            }
+        });
+    }
 
     private void signUpClick() {
         txtSignUp.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +134,5 @@ public class LoginActivity extends AppCompatActivity {
         //TODO tuk shte se izprashta informaciqta ot login formata za proverka dali ima takuv potrebitel v bazata
     }
 
-    public void goToBuyerActivity(View view) {
-        Intent startBuyerActivity = new Intent(LoginActivity.this, BuyerActivity.class);
-        startActivity(startBuyerActivity);
-    }
 
 }
