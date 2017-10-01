@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.lukas.artgallerydrow.R;
 
@@ -83,16 +84,15 @@ public class BuyerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            TextView camera = (TextView) findViewById(R.id.temp_test);
+            camera.setText("this is camera");
         } else if (id == R.id.nav_gallery) {
+            TextView camera = (TextView) findViewById(R.id.temp_test);
+            camera.setText("this is gallery");
 
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 
