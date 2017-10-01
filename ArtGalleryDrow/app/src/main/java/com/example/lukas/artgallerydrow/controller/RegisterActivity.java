@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (txtPass.getEditText().getText().toString().equals(txtConfirm.getEditText().getText().toString()) && flagUsername
                             && flagEmail && flagAddress) {
 
-                        Toast.makeText(RegisterActivity.this, "Register succsessful!!!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, "Register succsessful!!!", Toast.LENGTH_SHORT).show();
 
                     } else {
 

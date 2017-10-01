@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lukas.artgallerydrow">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +25,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".controller.RegisterActivity" />
         <activity android:name=".controller.SellerActivity" />
-        <activity android:name=".controller.TempTestActivity"></activity>
+        <activity android:name=".controller.TempTestActivity" />
+        <activity android:name=".controller.UploadPreview"></activity>
     </application>
 
 </manifest>

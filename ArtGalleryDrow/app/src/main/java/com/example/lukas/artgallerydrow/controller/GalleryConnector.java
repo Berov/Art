@@ -16,6 +16,7 @@ public class GalleryConnector {
         public static final String MONEY = "money";
         public static final String ADDRESS = "address";
         public static final String TYPE = "type";
+        public static final String IMG = "img";
         public static final String TABLE_NAME = "Users";
     }
 
@@ -36,6 +37,7 @@ public class GalleryConnector {
         public static final String ID = "id";
         public static final String TITLE = "title";
         public static final String PRICE = "price";
+        public static final String IMG = "img";
         public static final String TYPE_ITEM = "typeItem";
         public static final String SUBTYPE_ITEM = "subtypeItem";
         public static final String DESCRIPTION = "description";

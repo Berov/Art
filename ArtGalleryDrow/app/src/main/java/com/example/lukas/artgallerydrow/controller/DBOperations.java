@@ -21,9 +21,10 @@ public class DBOperations extends SQLiteOpenHelper {
             + GalleryConnector.User.ADDRESS + " text,"
             + GalleryConnector.User.NAME + " text,"
             + GalleryConnector.User.EMAIL + " text,"
-            + GalleryConnector.User.PASS + " text," +
-            GalleryConnector.User.TYPE + " text,"
-            + GalleryConnector.User.MONEY + " real);";
+            + GalleryConnector.User.PASS + " text,"
+            + GalleryConnector.User.TYPE + " text,"
+            + GalleryConnector.User.MONEY + " real,"
+            + GalleryConnector.User.IMG + " blob);";
 
     private static final String TYPE_QUERY = "create table "
             + GalleryConnector.Type.TABLE_NAME + "("
@@ -40,7 +41,9 @@ public class DBOperations extends SQLiteOpenHelper {
     private static final String ITEMS_QUERY = "create table "
             + GalleryConnector.Items.TABLE_NAME + "("
             + GalleryConnector.Items.ID + " integer primary key,"
-            + GalleryConnector.Items.PRICE + " integer,"
+            + GalleryConnector.Items.TITLE + " text,"
+            + GalleryConnector.Items.PRICE + " real,"
+            + GalleryConnector.Items.IMG + " blob,"
             + GalleryConnector.Items.TYPE_ITEM + " text,"
             + GalleryConnector.Items.SUBTYPE_ITEM + " text,"
             + GalleryConnector.Items.DESCRIPTION + " text,"
@@ -49,6 +52,7 @@ public class DBOperations extends SQLiteOpenHelper {
             + "FOREIGN KEY ("+GalleryConnector.Items.SELLER_ID+") REFERENCES "+GalleryConnector.User.TABLE_NAME+"("+GalleryConnector.User.ID+"), FOREIGN KEY ("
             + GalleryConnector.Items.BUYER_ID+") REFERENCES "+GalleryConnector.User.TABLE_NAME+"("+GalleryConnector.User.ID+"));";
 
+    //tablica za ako ostane vreme....
     private static final String PICTURES_QUERY = "create table "
             + GalleryConnector.Pictures.TABLE_NAME + "("
             + GalleryConnector.Pictures.ID + " integer primary key,"
@@ -69,7 +73,7 @@ public class DBOperations extends SQLiteOpenHelper {
         db.execSQL(SUBTYPE_QUERY);
         // do not checked for exist
         db.execSQL(ITEMS_QUERY);
-        db.execSQL(PICTURES_QUERY);
+        //db.execSQL(PICTURES_QUERY);
         insertQueries(db);
 
     }
@@ -123,6 +127,20 @@ public class DBOperations extends SQLiteOpenHelper {
 //        onCreate(db);
     }
 
+    public void addNewItem(SQLiteDatabase db, String title, Double price,byte[] img, String type, String subType, String desc, Integer sellerId) {
+        ContentValues values = new ContentValues();
+        values.putNull(GalleryConnector.Items.ID);
+        values.put(GalleryConnector.Items.TITLE,title);
+        values.put(GalleryConnector.Items.PRICE,price);
+        values.put(GalleryConnector.Items.IMG,img);
+        values.put(GalleryConnector.Items.TYPE_ITEM,type);
+        values.put(GalleryConnector.Items.SUBTYPE_ITEM,subType);
+        values.put(GalleryConnector.Items.DESCRIPTION,desc);
+        values.put(GalleryConnector.Items.SELLER_ID,sellerId);
+        values.putNull(GalleryConnector.Items.BUYER_ID);
+        db.insert(GalleryConnector.Items.TABLE_NAME,null,values);
+    }
+
     public void addUserInfo(SQLiteDatabase db, String address, String name, String email, String password, String type, double money){
         ContentValues values = new ContentValues();
         values.putNull(GalleryConnector.User.ID);
@@ -133,7 +151,6 @@ public class DBOperations extends SQLiteOpenHelper {
         values.put(GalleryConnector.User.TYPE,type);
         values.put(GalleryConnector.User.MONEY,money);
         db.insert(GalleryConnector.User.TABLE_NAME,null,values);
-        Log.d("Dataase operations","Row user inserted!");
     }
 
     public Cursor testGetUserInfo(){
@@ -154,4 +171,18 @@ public class DBOperations extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor selectSubtypeForSpecType(String type){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "SELECT subtype FROM Subtypes join Types on Subtypes.type_id = Types.id WHERE Types.type = '"+type+"'";
+        //Cursor res = db.rawQuery("select subtype from " + GalleryConnector.SubType.TABLE_NAME + " WHERE " +GalleryConnector.SubType.TYPE_ID+ " = (SELECT id from "+GalleryConnector.Type.TABLE_NAME+")",null);
+        Cursor res = db.rawQuery(sql,null);
+        return res;
+    }
+
+    public Cursor gelAllItems() {
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME;
+        Cursor res = db.rawQuery(sql,null);
+        return res;
+    }
 }

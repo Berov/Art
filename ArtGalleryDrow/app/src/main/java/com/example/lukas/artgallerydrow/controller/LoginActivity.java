@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout txtPassLogin;
 
     Button btnTestSelect, btnLogin;
+    int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void sendDataForResult() {
-        //TODO tuk shte se izprashta informaciqta ot login formata za proverka dali ima takuv potrebitel v bazata
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                 DBOperations dbOper = new DBOperations(LoginActivity.this);
                 Cursor res = dbOper.testGetUserInfo();
                 if (res.getCount() == 0) {
-                    Toast.makeText(LoginActivity.this, "Failed connection with database!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Failed connection with database or no user found",Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(txtEmailLogin.getText().toString().equals(res.getString(3)) && txtPassLogin.getEditText().getText().toString().equals(res.getString(4))){
                         flag = true;
+                        userID = res.getInt(0);
                         nameUser = res.getString(2);
                         email = res.getString(3);
                         type = res.getString(5);
@@ -86,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(flag) {
                     if(type.equals("Seller")){
                         Intent intent = new Intent(LoginActivity.this,SellerActivity.class);
+                        intent.putExtra("userID",userID);
                         intent.putExtra("userType",type);
                         intent.putExtra("User", nameUser);
                         intent.putExtra("email", email);
@@ -127,12 +129,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-    public void sendDataForResult(View view) {
-        //TODO tuk shte se izprashta informaciqta ot login formata za proverka dali ima takuv potrebitel v bazata
-    }
-
-
 }

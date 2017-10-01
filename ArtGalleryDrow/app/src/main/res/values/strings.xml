@@ -9,4 +9,15 @@
 
     <string name="seller_open">Open</string>
     <string name="seller_close">Close</string>
+    
+    <string-array name="itemKinds">
+        <item>graphics</item>
+        <item>painting</item>
+        <item>sculpture</item>
+        <item>wood carving</item>
+        <item>ceramics</item>
+        <item>glassware</item>
+        <item>textiles</item>
+        <item>iconography</item>
+    </string-array>
 </resources>

@@ -26,6 +26,19 @@ public class BackgroundDBTasks extends AsyncTask<Object,Void,String> {
         String method = params[0].toString();
         DBOperations dbOperation = new DBOperations(ctx);
 
+        if(method.equals("uploadImage")){
+            // String id = params[1];
+            String title = params[2].toString();
+            Double price = (Double)params[3];
+            byte[] img = (byte[]) params[4];
+            String type = params[5].toString();
+            String subType = params[6].toString();
+            String desc = params[7].toString();
+            Integer sellerId = (Integer)params[8];
+            SQLiteDatabase db = dbOperation.getWritableDatabase();
+            dbOperation.addNewItem(db, title, price, img, type, subType, desc, sellerId);
+            return "One item inserted";
+        }
 
         if(method.equals("addNewUser")){
             //  String id = params[1];
@@ -37,7 +50,7 @@ public class BackgroundDBTasks extends AsyncTask<Object,Void,String> {
             Double money = (Double)params[7];
             SQLiteDatabase db = dbOperation.getWritableDatabase();
             dbOperation.addUserInfo(db,address, user, email, pass,type, money);
-            return "One user row inserted";
+            return "One user inserted";
         }
 
         return "fuckk";

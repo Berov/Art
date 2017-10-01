@@ -9,6 +9,9 @@
         <item android:id="@+id/nav_itemsForSale"
             android:title="Items for sale"/>
 
+        <item android:id="@+id/nav_addItem"
+            android:title="AddItem"/>
+
     </group>
 
 </menu>
