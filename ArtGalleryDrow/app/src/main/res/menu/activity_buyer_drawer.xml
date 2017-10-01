@@ -1,24 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
+    <item android:title="Graphics">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:title="       linocut" />
+                <item android:title="       screen printing" />
+                <item android:title="       etching" />
+
+                <!--<item-->
+                <!--android:id="@+id/nav_manage"-->
+                <!--android:icon="@drawable/ic_menu_manage"-->
+                <!--android:title="Tools" />-->
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Painting">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:title="       aquarelle" />
+                <item android:title="       oil painting" />
+                <item android:title="       acrylic painting" />
+                <item android:title="       charcoal" />
+                <item android:title="       pencil painting" />
+                <item android:title="       pastel" />
+
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Sculpture">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:title="       stone" />
+                <item android:title="       metal" />
+                <item android:title="       gypsum" />
+            </group>
+        </menu>
+    </item>
+
+
+    <item android:title="Wood Carving">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:title="       classic wood carving" />
+                <item android:title="       modern carving" />
+                <item android:title="       interior carving" />
+                <item android:title="       souvenir woodcarving" />
+
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Ceramics">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:title="       wall panel" />
+                <item android:title="       souvenir ceramics" />
+                <item android:title="       household ceramics" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Glassware">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:title="       stained glass" />
+                <item android:title="       household glass sculpture" />
+                <item android:title="       souvenir glass" />
+                <item android:title="       jewelery" />
+
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Textiles">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:title="       clothes" />
+                <item android:title="       accessories" />
+                <item android:title="       textile panel" />
+                <item android:title="       carpets" />
+
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Iconography">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:title="       new style" />
+                <item android:title="       old style" />
+            </group>
+        </menu>
+    </item>
 
 
 </menu>
