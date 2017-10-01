@@ -93,6 +93,8 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
             allItemsForSale();
         } else if (id == R.id.nav_addItem) {
             openGallery();
+        } else if(id == R.id.nav_profile_settings){
+            // suzdai si layout za settings i tam da pokazvash profila na user-a
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.seller_drow_layout);

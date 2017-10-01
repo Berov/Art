@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="none">
+<item android:title="Actions">
+    <menu>
+        <group android:checkableBehavior="none">
 
-        <item android:id="@+id/nav_soldItems"
-            android:title="Sold Items"/>
+            <item android:id="@+id/nav_soldItems"
+                android:title="     Sold Items"/>
 
-        <item android:id="@+id/nav_itemsForSale"
-            android:title="Items for sale"/>
+            <item android:id="@+id/nav_itemsForSale"
+                android:title="     Items for sale"/>
 
-        <item android:id="@+id/nav_addItem"
-            android:title="AddItem"/>
+            <item android:id="@+id/nav_addItem"
+                android:title="     AddItem"/>
 
-    </group>
+            <item android:id="@+id/nav_profile_settings"
+                android:title="     Profile"/>
+
+        </group>
+    </menu>
+</item>
 
 </menu>
