@@ -1,16 +1,12 @@
 package com.example.lukas.artgallerydrow.controller;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,13 +23,11 @@ import android.widget.Toast;
 import com.example.lukas.artgallerydrow.R;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.jar.Manifest;
 
 public class SellerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    ImageView img;
+
     private static final int PICK_IMAGE = 100;
     private DrawerLayout sellerDrowerLayout;
     private ActionBarDrawerToggle sellerToggle;
@@ -42,21 +36,14 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     private TextView headerEmail;
     private int userID;
 
-    private CustomRecyclerView adapter;
+    private CustomRecyclerViewSeller adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
 
-        DBOperations dbOper = new DBOperations(SellerActivity.this);
-        Cursor res = dbOper.gelAllItems();
-
-        RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CustomRecyclerView(this,res);
-        //add adapter clicklisteners
-        recycler.setAdapter(adapter);
+        allItemsForSale();
 
         sellerDrowerLayout = (DrawerLayout) findViewById(R.id.seller_drow_layout);
         sellerToggle = new ActionBarDrawerToggle(this, sellerDrowerLayout, R.string.seller_open, R.string.seller_close);
@@ -94,9 +81,16 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_soldItems) {
+            DBOperations dbOper = new DBOperations(SellerActivity.this);
+            Cursor res = dbOper.getSoldItems(userID);
 
+            RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
+            recycler.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new CustomRecyclerViewSeller(this,res);
+            //add adapter clicklisteners eventualno
+            recycler.setAdapter(adapter);
         } else if (id == R.id.nav_itemsForSale) {
-
+            allItemsForSale();
         } else if (id == R.id.nav_addItem) {
             openGallery();
         }
@@ -104,6 +98,17 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.seller_drow_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void allItemsForSale() {
+        DBOperations dbOper = new DBOperations(SellerActivity.this);
+        Cursor res = dbOper.gelAllItems();
+
+        RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new CustomRecyclerViewSeller(this,res);
+        //add adapter clicklisteners eventualno
+        recycler.setAdapter(adapter);
     }
 
     public void openGallery() {

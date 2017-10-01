@@ -137,6 +137,7 @@ public class DBOperations extends SQLiteOpenHelper {
         values.put(GalleryConnector.Items.SUBTYPE_ITEM,subType);
         values.put(GalleryConnector.Items.DESCRIPTION,desc);
         values.put(GalleryConnector.Items.SELLER_ID,sellerId);
+        // beshe samo za test :D values.put(GalleryConnector.Items.BUYER_ID,1);
         values.putNull(GalleryConnector.Items.BUYER_ID);
         db.insert(GalleryConnector.Items.TABLE_NAME,null,values);
     }
@@ -179,10 +180,19 @@ public class DBOperations extends SQLiteOpenHelper {
         return res;
     }
 
-    public Cursor gelAllItems() {
+    public Cursor getSoldItems(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME;
+        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME + " JOIN Users ON Items.seller_id = "+id+" WHERE Items.buyer_id IS NOT null";
         Cursor res = db.rawQuery(sql,null);
         return res;
     }
+
+    public Cursor gelAllItems() {
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME + " WHERE Items.buyer_id IS null";
+        Cursor res = db.rawQuery(sql,null);
+        return res;
+    }
+
+
 }
