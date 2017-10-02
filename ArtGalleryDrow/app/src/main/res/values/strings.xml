@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ArtGalleryDrow</string>
+    <string name="app_name">Art Gallery</string>
     <string name="title_activity_buyer">BuyerActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
