@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,12 +18,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class UserProfileActivity extends AppCompatActivity {
 
+    public static final int GALLERY_REQUEST = 30;
     ImageView imagee;
     EditText username;
     EditText address;
@@ -68,37 +73,47 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 10) {
 
-            if(resultCode == RESULT_OK) {
+        if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+            Uri imageUri = data.getData();
+            CropImage.activity(imageUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .setAspectRatio(1,1)
+                    .start(this);
+        }
 
-                Uri uriImg = data.getData();
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+
+                Uri resultUri = result.getUri();
 
                 InputStream inputStream;
 
                 try {
-                    inputStream = getContentResolver().openInputStream(uriImg);
+                    inputStream = getContentResolver().openInputStream(resultUri);
 
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
 
-                    if (image.getWidth() > 1300 || image.getHeight() > 1300) {
-                        Toast.makeText(getApplicationContext(), "Picture is too big!", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-
                     bytes = Validator.getBytes(image);
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    RoundedBitmapDrawable round = RoundedBitmapDrawableFactory.create(getResources(),bitmap);
+                    round.setCircular(true);
 
-                    imagee.setImageBitmap(bitmap);
+                    imagee.setImageDrawable(round);
 
                     flag = true;
                     Toast.makeText(getApplicationContext(), "Image changed!", Toast.LENGTH_SHORT).show();
 
-                } catch (FileNotFoundException e) {
+                }catch (FileNotFoundException e) {
                     e.printStackTrace();
                     flag = false;
                     Toast.makeText(getApplicationContext(), "Unable to open image...", Toast.LENGTH_LONG).show();
                 }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
         }
     }
@@ -107,8 +122,10 @@ public class UserProfileActivity extends AppCompatActivity {
         btnUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPick = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(photoPick, 10);
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_REQUEST);
             }
         });
     }

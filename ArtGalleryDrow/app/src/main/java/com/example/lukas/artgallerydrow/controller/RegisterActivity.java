@@ -192,10 +192,7 @@ public class RegisterActivity extends AppCompatActivity {
         boolean flag = false;
         DBOperations dbOper = new DBOperations(RegisterActivity.this);
         Cursor res = dbOper.testGetUserInfo();
-        if (res.getCount() == 0) {
-            Toast.makeText(RegisterActivity.this, "Failed connection with database or no user found",Toast.LENGTH_LONG).show();
-            return false;
-        }
+
         while (res.moveToNext()) {
             String email = res.getString(3);
             if(email.equals(emailString)){

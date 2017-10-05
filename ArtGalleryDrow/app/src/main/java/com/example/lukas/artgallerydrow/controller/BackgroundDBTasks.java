@@ -1,5 +1,6 @@
 package com.example.lukas.artgallerydrow.controller;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -74,6 +75,6 @@ public class BackgroundDBTasks extends AsyncTask<Object,Void,String> {
 
     @Override
     protected void onPostExecute(String res) {
-        //Toast.makeText(ctx,res, Toast.LENGTH_LONG).show();
+        Toast.makeText(ctx,res, Toast.LENGTH_LONG).show();
     }
 }

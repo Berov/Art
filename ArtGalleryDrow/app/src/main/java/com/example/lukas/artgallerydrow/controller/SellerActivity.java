@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,7 +23,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.lukas.artgallerydrow.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -45,7 +50,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
-        // kak da recreate-vam ot otResume()
+
         userID = getIntent().getExtras().getInt("userID");
 
         sellerDrowerLayout = (DrawerLayout) findViewById(R.id.seller_drow_layout);
@@ -75,7 +80,11 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
             imageHeader.setImageResource(R.mipmap.emptyprofile);
         }else{
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-            imageHeader.setImageBitmap(bitmap);
+
+            RoundedBitmapDrawable round = RoundedBitmapDrawableFactory.create(getResources(),bitmap);
+            round.setCircular(true);
+
+            imageHeader.setImageDrawable(round);
         }
 
         headerEmail.setText(getIntent().getExtras().getString("email"));
@@ -103,6 +112,12 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
             name = res.getString(0);
         }
         return name;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allItemsForSale();
     }
 
     @Override
@@ -149,7 +164,10 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     private void allItemsForSale() {
         DBOperations dbOper = new DBOperations(SellerActivity.this);
         Cursor res = dbOper.gelAllItems();
-
+        if(res == null){
+            Toast.makeText(getApplicationContext(),"No image for sale!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
         recycler.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CustomRecyclerViewSeller(this,res);
@@ -158,23 +176,37 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     }
 
     public void openGallery() {
-        Intent photoPick = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(photoPick, PICK_IMAGE);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE) {
-
-            if(resultCode == RESULT_OK) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
 
                 Uri uriImg = data.getData();
+
+                CropImage.activity(uriImg)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setMinCropResultSize(100,100)
+                        .setMaxCropResultSize(1281,1282)
+                        .start(this);
+
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+
+                Uri resultUri = result.getUri();
 
                 InputStream inputStream;
 
                 try {
-                    inputStream = getContentResolver().openInputStream(uriImg);
+                    inputStream = getContentResolver().openInputStream(resultUri);
 
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
 
@@ -183,26 +215,29 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
                         return;
                     }
 
-                    byte[] bytes = Validator.getBytes(image);
-                    //zashto gurmi pri opredeleni snimki?!!?!? i shto nqma exception?!?!?! :D
                     Intent intent = new Intent(SellerActivity.this, UploadPreview.class);
                     intent.putExtra("userID", userID);
-                    intent.putExtra("image", bytes);
+                    intent.putExtra("image", resultUri.toString());
                     startActivity(intent);
 
-                } catch (FileNotFoundException e) {
+                }catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Unable to open image...", Toast.LENGTH_LONG).show();
                 }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
-        }else if(requestCode == CHANGE_PROFILE){
+        }
+
+        if(requestCode == CHANGE_PROFILE){
             if(resultCode == RESULT_CANCELED){
                 Toast.makeText(getApplicationContext(), "You canceled updates..", Toast.LENGTH_SHORT).show();
             }else if(resultCode == RESULT_OK){
                 recreate();
             }
         }
-    }
 
+    }
 
 }
