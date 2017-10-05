@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             if (data != null) {
                 txtEmailLogin.setText(data.getStringExtra("email"));
                 txtPassLogin.getEditText().setText(data.getStringExtra("pass"));
+                Toast.makeText(LoginActivity.this, "Register success!", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(LoginActivity.this, "Somethings wrong with data!", Toast.LENGTH_LONG).show();
             }

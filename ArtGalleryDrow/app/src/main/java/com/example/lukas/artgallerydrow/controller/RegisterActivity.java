@@ -1,6 +1,7 @@
 package com.example.lukas.artgallerydrow.controller;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -94,7 +95,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 1){
+                // check is this valid check :D
+                if(!(Validator.isValidUsername(s.toString()))){
                     flagUsername = false;
                     txtUser.setError("Invalid field!");
                 }else{
@@ -118,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 10){
+                if(s.length() < 10 || s.length() > 80){
                     txtAddress.setError("Invalid field!");
                     flagAddress = false;
                 }else{
@@ -148,8 +150,6 @@ public class RegisterActivity extends AppCompatActivity {
                     if (txtPass.getEditText().getText().toString().equals(txtConfirm.getEditText().getText().toString()) && flagUsername
                             && flagEmail && flagAddress) {
 
-                        Toast.makeText(RegisterActivity.this, "Register succsessful!!!", Toast.LENGTH_SHORT).show();
-
                     } else {
 
                         txtPass.getEditText().setText("");
@@ -177,16 +177,41 @@ public class RegisterActivity extends AppCompatActivity {
                 String pass = txtPass.getEditText().getText().toString();
                 String type = radioButton.getText().toString();
 
-                saveData(address,user, email, pass, type);
-                setResult(RESULT_CODE_REG_OK,intent);
-                finish();
+                boolean validation = saveData(address,user, email, pass, type);
+                if(validation) {
+                    setResult(RESULT_CODE_REG_OK, intent);
+                    finish();
+                }else{
+                    return;
+                }
             }
         });
     }
 
-    public void saveData(String addressString, String userString, String emailString, String pass, String type) {
-        BackgroundDBTasks dbTask = new BackgroundDBTasks(this);
-        dbTask.execute("addNewUser", null,addressString, userString, emailString, pass, type, 1000.00);
+    public boolean saveData(String addressString, String userString, String emailString, String pass, String type) {
+        boolean flag = false;
+        DBOperations dbOper = new DBOperations(RegisterActivity.this);
+        Cursor res = dbOper.testGetUserInfo();
+        if (res.getCount() == 0) {
+            Toast.makeText(RegisterActivity.this, "Failed connection with database or no user found",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        while (res.moveToNext()) {
+            String email = res.getString(3);
+            if(email.equals(emailString)){
+                flag = true;
+                break;
+            }
+        }
+        if(flag){
+            Toast.makeText(getApplicationContext(), "THE EMAIL IS ALREADY REGISTERED",Toast.LENGTH_LONG).show();
+            txtEmail.setError("");
+            return false;
+        }else {
+            BackgroundDBTasks dbTask = new BackgroundDBTasks(this);
+            dbTask.execute("addNewUser", null, addressString, userString, emailString, pass, type, 1000.00);
+            return true;
+        }
     }
 
     private void cancelClick() {

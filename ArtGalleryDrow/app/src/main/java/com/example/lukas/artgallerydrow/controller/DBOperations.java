@@ -88,7 +88,6 @@ public class DBOperations extends SQLiteOpenHelper {
         db.execSQL("insert into " + GalleryConnector.Type.TABLE_NAME + " values(7, 'textiles');");
         db.execSQL("insert into " + GalleryConnector.Type.TABLE_NAME + " values(8, 'iconography');");
 
-        // WTF ?!?!?!!??! db.execSQL("insert into "+GalleryConnector.SubType.TABLE_NAME+" values(null, 'linocut', 1);");
         db.execSQL("insert into Subtypes values(null, 'linocut', 1)");
         db.execSQL("insert into Subtypes values(null, 'screen printing', 1)");
         db.execSQL("insert into Subtypes values(null, 'etching', 1)");
@@ -123,8 +122,7 @@ public class DBOperations extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        db.execSQL("DROP TABLE IF EXIST " + GalleryConnector.User.TABLE_NAME + ";");
-//        onCreate(db);
+
     }
 
     public void addNewItem(SQLiteDatabase db, String title, Double price,byte[] img, String type, String subType, String desc, Integer sellerId) {
@@ -154,28 +152,40 @@ public class DBOperations extends SQLiteOpenHelper {
         db.insert(GalleryConnector.User.TABLE_NAME,null,values);
     }
 
+    public void updateUserProfile(SQLiteDatabase db, Integer id, String address, String username, String pass, byte[] img) {
+        ContentValues values = new ContentValues();
+        values.put(GalleryConnector.User.ADDRESS,address);
+        values.put(GalleryConnector.User.NAME,username);
+        values.put(GalleryConnector.User.PASS,pass);
+        if(img == null) {
+            values.putNull(GalleryConnector.User.IMG);
+        }else{
+            values.put(GalleryConnector.User.IMG,img);
+        }
+        db.update(GalleryConnector.User.TABLE_NAME,values,"id="+id,null);
+    }
+
     public Cursor testGetUserInfo(){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + GalleryConnector.User.TABLE_NAME,null);
         return res;
     }
 
     public Cursor testGetTypeInfo(){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + GalleryConnector.Type.TABLE_NAME,null);
         return res;
     }
 
     public Cursor testGetSubTypeInfo(){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + GalleryConnector.SubType.TABLE_NAME,null);
         return res;
     }
 
     public Cursor selectSubtypeForSpecType(String type){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT subtype FROM Subtypes join Types on Subtypes.type_id = Types.id WHERE Types.type = '"+type+"'";
-        //Cursor res = db.rawQuery("select subtype from " + GalleryConnector.SubType.TABLE_NAME + " WHERE " +GalleryConnector.SubType.TYPE_ID+ " = (SELECT id from "+GalleryConnector.Type.TABLE_NAME+")",null);
         Cursor res = db.rawQuery(sql,null);
         return res;
     }
@@ -194,5 +204,17 @@ public class DBOperations extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getUserName(int userID) {
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "SELECT name FROM " + GalleryConnector.User.TABLE_NAME + " WHERE Users.id IS '" + userID + "'";
+        Cursor res = db.rawQuery(sql,null);
+        return res;
+    }
 
+    public Cursor checkUserForImage(int userID){
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "SELECT img FROM " + GalleryConnector.User.TABLE_NAME + " WHERE Users.id IS '" + userID + "'";
+        Cursor res = db.rawQuery(sql,null);
+        return res;
+    }
 }

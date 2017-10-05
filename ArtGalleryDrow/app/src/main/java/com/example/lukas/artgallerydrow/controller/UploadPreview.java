@@ -1,11 +1,8 @@
 package com.example.lukas.artgallerydrow.controller;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -121,11 +118,11 @@ public class UploadPreview extends AppCompatActivity {
 
     }
 
-    private void uploadItem(String title, double priceItem,byte[] img, String type, String subtype, String desc, int sellerId) {
+    private void uploadItem(String title, double priceItem, byte[] img, String type, String subtype, String desc, int sellerId) {
                 if(isTitleTrue && isPriceTrue && isDescTrue){
                     BackgroundDBTasks bt = new BackgroundDBTasks(UploadPreview.this);
                     bt.execute("uploadImage",null,title,priceItem,img, type,subtype,desc,sellerId);
-                    onBackPressed();
+                    finish();
                 }else{
                     Toast.makeText(getApplicationContext(), "You have invalid fields!", Toast.LENGTH_LONG).show();
                     return;
@@ -204,7 +201,6 @@ public class UploadPreview extends AppCompatActivity {
             }
         });
     }
-
 
     private String[] testSubtypesByType(String type){
         DBOperations dbOper = new DBOperations(UploadPreview.this);

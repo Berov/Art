@@ -9,7 +9,7 @@
 
     <string name="seller_open">Open</string>
     <string name="seller_close">Close</string>
-    
+
     <string-array name="itemKinds">
         <item>graphics</item>
         <item>painting</item>

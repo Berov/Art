@@ -26,7 +26,8 @@
         <activity android:name=".controller.RegisterActivity" />
         <activity android:name=".controller.SellerActivity" />
         <activity android:name=".controller.TempTestActivity" />
-        <activity android:name=".controller.UploadPreview"></activity>
+        <activity android:name=".controller.UploadPreview" />
+        <activity android:name=".controller.UserProfileActivity" />
     </application>
 
 </manifest>

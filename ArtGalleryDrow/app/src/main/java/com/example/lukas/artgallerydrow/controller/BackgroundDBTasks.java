@@ -26,6 +26,17 @@ public class BackgroundDBTasks extends AsyncTask<Object,Void,String> {
         String method = params[0].toString();
         DBOperations dbOperation = new DBOperations(ctx);
 
+        if(method.equals("updateProfile")){
+            Integer id = (Integer)params[1];
+            String address = params[2].toString();
+            String username = params[3].toString();
+            String pass = params[4].toString();
+            byte[] bytes = (byte[])params[5];
+            SQLiteDatabase db = dbOperation.getWritableDatabase();
+            dbOperation.updateUserProfile(db,id,address,username,pass,bytes);
+            return "User is updated";
+        }
+
         if(method.equals("uploadImage")){
             // String id = params[1];
             String title = params[2].toString();
@@ -63,6 +74,6 @@ public class BackgroundDBTasks extends AsyncTask<Object,Void,String> {
 
     @Override
     protected void onPostExecute(String res) {
-        Toast.makeText(ctx,res, Toast.LENGTH_LONG).show();
+        //Toast.makeText(ctx,res, Toast.LENGTH_LONG).show();
     }
 }

@@ -45,9 +45,9 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
         byte[] image = mData.getBlob(3);
         Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
 
-        holder.txtCustomTitle.setText(title);
+        holder.txtCustomTitle.setText("Title: "+title);
         holder.txtCustomDesc.setText(desc);
-        holder.txtCustomPrice.setText(price);
+        holder.txtCustomPrice.setText("Price:" + price+"$");
         holder.imgCustomRow.setImageBitmap(bitmap);
 
 //        buff.append("ID: " + res.getString(0) + "\n");

@@ -2,6 +2,7 @@ package com.example.lukas.artgallerydrow.controller;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -29,11 +30,13 @@ import java.io.InputStream;
 public class SellerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int PICK_IMAGE = 100;
+    private static final int CHANGE_PROFILE = 50;
     private DrawerLayout sellerDrowerLayout;
     private ActionBarDrawerToggle sellerToggle;
 
     private TextView headerUser;
     private TextView headerEmail;
+    private ImageView imageHeader;
     private int userID;
 
     private CustomRecyclerViewSeller adapter;
@@ -42,27 +45,64 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller);
-
-        allItemsForSale();
+        // kak da recreate-vam ot otResume()
+        userID = getIntent().getExtras().getInt("userID");
 
         sellerDrowerLayout = (DrawerLayout) findViewById(R.id.seller_drow_layout);
+        sellerDrowerLayout.setBackgroundResource(R.color.colorAccent);
         sellerToggle = new ActionBarDrawerToggle(this, sellerDrowerLayout, R.string.seller_open, R.string.seller_close);
         sellerDrowerLayout.addDrawerListener(sellerToggle);
         sellerToggle.syncState();
 
-        // this set button to open sidebar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         NavigationView navViewSeller = (NavigationView) findViewById(R.id.seller_nav_view);
+        navViewSeller.setBackgroundResource(R.color.colorAccent);
         View v = navViewSeller.getHeaderView(0);
         navViewSeller.setNavigationItemSelectedListener(this);
 
         headerUser = (TextView) v.findViewById(R.id.nav_header_seller_name);
+        headerUser.setText(getUsername());
+
         headerEmail = (TextView) v.findViewById(R.id.nav_header_seller_email);
 
-        userID = getIntent().getExtras().getInt("userID");
-        headerUser.setText(getIntent().getExtras().getString("User"));
+        imageHeader = (ImageView) v.findViewById(R.id.imgHeaderSeller);
+
+        allItemsForSale();
+
+        byte[] bytes = bytesImage();
+        if(bytes == null){
+            imageHeader.setImageResource(R.mipmap.emptyprofile);
+        }else{
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            imageHeader.setImageBitmap(bitmap);
+        }
+
         headerEmail.setText(getIntent().getExtras().getString("email"));
+    }
+
+    private byte[] bytesImage(){
+        DBOperations dbOper = new DBOperations(SellerActivity.this);
+        Cursor res = dbOper.checkUserForImage(userID);
+        byte[] b = null;
+        while (res.moveToNext()){
+            b = res.getBlob(0);
+        }
+        if(b == null){
+            return null;
+        }else{
+            return b;
+        }
+    }
+
+    private String getUsername() {
+        DBOperations dbOper = new DBOperations(SellerActivity.this);
+        Cursor res = dbOper.getUserName(userID);
+        String name = null;
+        while (res.moveToNext()){
+            name = res.getString(0);
+        }
+        return name;
     }
 
     @Override
@@ -81,8 +121,10 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         int id = item.getItemId();
 
         if (id == R.id.nav_soldItems) {
+
             DBOperations dbOper = new DBOperations(SellerActivity.this);
-            Cursor res = dbOper.getSoldItems(userID);
+            Cursor res = null;
+            res = dbOper.getSoldItems(userID);
 
             RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
             recycler.setLayoutManager(new LinearLayoutManager(this));
@@ -94,7 +136,9 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_addItem) {
             openGallery();
         } else if(id == R.id.nav_profile_settings){
-            // suzdai si layout za settings i tam da pokazvash profila na user-a
+            Intent intent1 = new Intent(SellerActivity.this,UserProfileActivity.class);
+            intent1.putExtra("userID",userID);
+            startActivityForResult(intent1, CHANGE_PROFILE);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.seller_drow_layout);
@@ -121,7 +165,9 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+        if (requestCode == PICK_IMAGE) {
+
+            if(resultCode == RESULT_OK) {
 
                 Uri uriImg = data.getData();
 
@@ -132,32 +178,31 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
 
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
 
-                    if(image.getWidth() > 1300 || image.getHeight() > 1300){
-                        Toast.makeText(getApplicationContext(),"Picture is too big!",Toast.LENGTH_LONG).show();
+                    if (image.getWidth() > 1300 || image.getHeight() > 1300) {
+                        Toast.makeText(getApplicationContext(), "Picture is too big!", Toast.LENGTH_LONG).show();
                         return;
                     }
 
-                    byte[] bytes = getBytes(image);
+                    byte[] bytes = Validator.getBytes(image);
                     //zashto gurmi pri opredeleni snimki?!!?!? i shto nqma exception?!?!?! :D
-                    Intent intent = new Intent(SellerActivity.this,UploadPreview.class);
-                    intent.putExtra("userID",userID);
-                    intent.putExtra("image",bytes);
+                    Intent intent = new Intent(SellerActivity.this, UploadPreview.class);
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("image", bytes);
                     startActivity(intent);
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Unable to open image...", Toast.LENGTH_LONG).show();
                 }
-
-        }else{
-            Toast.makeText(getApplicationContext(),"Cannot open this image", Toast.LENGTH_LONG).show();
-            return;
+            }
+        }else if(requestCode == CHANGE_PROFILE){
+            if(resultCode == RESULT_CANCELED){
+                Toast.makeText(getApplicationContext(), "You canceled updates..", Toast.LENGTH_SHORT).show();
+            }else if(resultCode == RESULT_OK){
+                recreate();
+            }
         }
     }
 
-    public static byte[] getBytes(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-        return stream.toByteArray();
-    }
+
 }
