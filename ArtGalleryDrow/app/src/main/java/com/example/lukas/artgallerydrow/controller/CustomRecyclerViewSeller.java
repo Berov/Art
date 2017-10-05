@@ -40,12 +40,16 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
         mData.moveToPosition(position);
 
         String title = mData.getString(1);
+        String type = mData.getString(4);
+        String subType = mData.getString(5);
         String desc = mData.getString(6);
         String price = mData.getString(2);
         byte[] image = mData.getBlob(3);
         Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
 
         holder.txtCustomTitle.setText("Title: "+title);
+        holder.txtType.setText(type + " ");
+        holder.txtSubType.setText(subType + " ");
         holder.txtCustomDesc.setText(desc);
         holder.txtCustomPrice.setText("Price:" + price+"$");
         holder.imgCustomRow.setImageBitmap(bitmap);
@@ -72,6 +76,8 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
         public TextView txtCustomDesc;
         public TextView txtCustomPrice;
         public ImageView imgCustomRow;
+        public TextView txtType;
+        public TextView txtSubType;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -81,6 +87,8 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
             txtCustomDesc = (TextView) itemView.findViewById(R.id.desc_row);
             txtCustomPrice = (TextView) itemView.findViewById(R.id.desc_price);
             imgCustomRow = (ImageView) itemView.findViewById(R.id.img_row);
+            txtType = (TextView) itemView.findViewById(R.id.type_row);
+            txtSubType = (TextView) itemView.findViewById(R.id.subtype_row);
             // vij za click listener
 
         }

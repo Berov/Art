@@ -75,6 +75,6 @@ public class BackgroundDBTasks extends AsyncTask<Object,Void,String> {
 
     @Override
     protected void onPostExecute(String res) {
-        Toast.makeText(ctx,res, Toast.LENGTH_LONG).show();
+        //Toast.makeText(ctx,res, Toast.LENGTH_LONG).show();
     }
 }
