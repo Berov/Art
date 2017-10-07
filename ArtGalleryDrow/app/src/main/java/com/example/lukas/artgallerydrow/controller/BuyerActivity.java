@@ -9,6 +9,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -94,10 +96,10 @@ public class BuyerActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == CHANGE_PROFILE){
-            if(resultCode == RESULT_CANCELED){
+        if (requestCode == CHANGE_PROFILE) {
+            if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "You canceled updates..", Toast.LENGTH_SHORT).show();
-            }else if(resultCode == RESULT_OK){
+            } else if (resultCode == RESULT_OK) {
                 recreate();
             }
         }
@@ -141,24 +143,60 @@ public class BuyerActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-//
-//        if (id == R.id.nav_camera) {
-//            TextView camera = (TextView) findViewById(R.id.temp_test);
-//            camera.setText("this is camera");
-//        } else if (id == R.id.nav_gallery) {
-//            TextView camera = (TextView) findViewById(R.id.temp_test);
-//            camera.setText("this is gallery");
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        }
+
+        if (id == R.id.b_grapphics) {
+            //TextView camera = (TextView) findViewById(R.id.temp_test);
+            //camera.setText("this is camera");
+
+            getItemByType("graphics");
+
+
+        } else if (id == R.id.b_linocut) {
+            getItemBySubtype("linocut");
+
+        } else if (id == R.id.b_screen_printing) {
+
+        } else if (id == R.id.b_etching) {
+
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void getItemByType(String type) {
+
+        DBOperations operator = new DBOperations(BuyerActivity.this);
+        Cursor dbResult = operator.getItemsForSaleByType(type);
+        if (dbResult == null) {
+            Toast.makeText(getApplicationContext(), "There are no items for sale!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+        CustomRecyclerViewBuyer adapter = new CustomRecyclerViewBuyer(dbResult, this);
+        recycler.setAdapter(adapter);
+
+    }
+
+    private void getItemBySubtype(String subtype) {
+
+        DBOperations operator = new DBOperations(BuyerActivity.this);
+        Cursor dbResult = operator.getItemsForSaleBySubtype(subtype);
+        if (dbResult == null) {
+            Toast.makeText(getApplicationContext(), "There are no items for sale!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+        CustomRecyclerViewBuyer adapter = new CustomRecyclerViewBuyer(dbResult, this);
+        recycler.setAdapter(adapter);
+
+    }
+
+
+
 
     private byte[] bytesImage() {
         DBOperations dbOper = new DBOperations(BuyerActivity.this);

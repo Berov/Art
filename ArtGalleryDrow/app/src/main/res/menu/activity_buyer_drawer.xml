@@ -1,24 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Graphics">
+    <item android:title="sss">
         <menu>
             <group android:checkableBehavior="single">
-                <item android:title="       linocut" />
-                <item android:title="       screen printing" />
-                <item android:title="       etching" />
+                <item
+                    android:id="@+id/b_grapphics"
+                    android:title="Graphics"/>
+                <item
+                    android:id="@+id/b_linocut"
+                    android:title="       linocut" />
+                <item
+                    android:id="@+id/b_screen_printing"
+                    android:title="       screen printing" />
+                <item
+                    android:id="@+id/b_etching"
+                    android:title="       etching" />
 
                 <!--<item-->
                 <!--android:id="@+id/nav_manage"-->
                 <!--android:icon="@drawable/ic_menu_manage"-->
                 <!--android:title="Tools" />-->
             </group>
+            <group android:checkableBehavior="single">
+                <item android:title="Painting"/>
+                <item android:title="       aquarelle" />
+                <item android:title="       oil painting" />
+                <item android:title="       acrylic painting" />
+                <item android:title="       charcoal" />
+                <item android:title="       pencil painting" />
+                <item android:title="       pastel" />
+
+            </group>
         </menu>
+
+
     </item>
 
     <item android:title="Painting">
         <menu>
             <group android:checkableBehavior="single">
+                <item android:title="Painting"/>
                 <item android:title="       aquarelle" />
                 <item android:title="       oil painting" />
                 <item android:title="       acrylic painting" />

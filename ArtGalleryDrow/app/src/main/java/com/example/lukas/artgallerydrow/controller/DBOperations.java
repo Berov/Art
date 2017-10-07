@@ -36,7 +36,7 @@ public class DBOperations extends SQLiteOpenHelper {
             + GalleryConnector.SubType.ID + " integer primary key,"
             + GalleryConnector.SubType.SUBTYPE + " text,"
             + GalleryConnector.SubType.TYPE_ID + " integer,"
-            + "FOREIGN KEY ("+GalleryConnector.SubType.TYPE_ID+") REFERENCES "+GalleryConnector.Type.TABLE_NAME+"("+GalleryConnector.Type.ID+"));";
+            + "FOREIGN KEY (" + GalleryConnector.SubType.TYPE_ID + ") REFERENCES " + GalleryConnector.Type.TABLE_NAME + "(" + GalleryConnector.Type.ID + "));";
 
     private static final String ITEMS_QUERY = "create table "
             + GalleryConnector.Items.TABLE_NAME + "("
@@ -49,8 +49,8 @@ public class DBOperations extends SQLiteOpenHelper {
             + GalleryConnector.Items.DESCRIPTION + " text,"
             + GalleryConnector.Items.SELLER_ID + " integer,"
             + GalleryConnector.Items.BUYER_ID + " integer,"
-            + "FOREIGN KEY ("+GalleryConnector.Items.SELLER_ID+") REFERENCES "+GalleryConnector.User.TABLE_NAME+"("+GalleryConnector.User.ID+"), FOREIGN KEY ("
-            + GalleryConnector.Items.BUYER_ID+") REFERENCES "+GalleryConnector.User.TABLE_NAME+"("+GalleryConnector.User.ID+"));";
+            + "FOREIGN KEY (" + GalleryConnector.Items.SELLER_ID + ") REFERENCES " + GalleryConnector.User.TABLE_NAME + "(" + GalleryConnector.User.ID + "), FOREIGN KEY ("
+            + GalleryConnector.Items.BUYER_ID + ") REFERENCES " + GalleryConnector.User.TABLE_NAME + "(" + GalleryConnector.User.ID + "));";
 
     //tablica za ako ostane vreme....
     private static final String PICTURES_QUERY = "create table "
@@ -59,10 +59,10 @@ public class DBOperations extends SQLiteOpenHelper {
             + GalleryConnector.Pictures.ORIGINAL_PIC + " blob,"
             + GalleryConnector.Pictures.SOLD_PIC + " blob,"
             + GalleryConnector.Pictures.ITEM_ID + " integer,"
-            + "FOREIGN KEY ("+GalleryConnector.Pictures.ITEM_ID+") REFERENCES "+GalleryConnector.Items.TABLE_NAME+"("+GalleryConnector.Items.ID+"));";
+            + "FOREIGN KEY (" + GalleryConnector.Pictures.ITEM_ID + ") REFERENCES " + GalleryConnector.Items.TABLE_NAME + "(" + GalleryConnector.Items.ID + "));";
 
     public DBOperations(Context context) {
-        super(context, DB_NAME, null , DB_VERSION);
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -125,96 +125,112 @@ public class DBOperations extends SQLiteOpenHelper {
 
     }
 
-    public void addNewItem(SQLiteDatabase db, String title, Double price,byte[] img, String type, String subType, String desc, Integer sellerId) {
+    public void addNewItem(SQLiteDatabase db, String title, Double price, byte[] img, String type, String subType, String desc, Integer sellerId) {
         ContentValues values = new ContentValues();
         values.putNull(GalleryConnector.Items.ID);
-        values.put(GalleryConnector.Items.TITLE,title);
-        values.put(GalleryConnector.Items.PRICE,price);
-        values.put(GalleryConnector.Items.IMG,img);
-        values.put(GalleryConnector.Items.TYPE_ITEM,type);
-        values.put(GalleryConnector.Items.SUBTYPE_ITEM,subType);
-        values.put(GalleryConnector.Items.DESCRIPTION,desc);
-        values.put(GalleryConnector.Items.SELLER_ID,sellerId);
+        values.put(GalleryConnector.Items.TITLE, title);
+        values.put(GalleryConnector.Items.PRICE, price);
+        values.put(GalleryConnector.Items.IMG, img);
+        values.put(GalleryConnector.Items.TYPE_ITEM, type);
+        values.put(GalleryConnector.Items.SUBTYPE_ITEM, subType);
+        values.put(GalleryConnector.Items.DESCRIPTION, desc);
+        values.put(GalleryConnector.Items.SELLER_ID, sellerId);
         // beshe samo za test :D values.put(GalleryConnector.Items.BUYER_ID,1);
         values.putNull(GalleryConnector.Items.BUYER_ID);
-        db.insert(GalleryConnector.Items.TABLE_NAME,null,values);
+        db.insert(GalleryConnector.Items.TABLE_NAME, null, values);
     }
 
-    public void addUserInfo(SQLiteDatabase db, String address, String name, String email, String password, String type, double money){
+    public void addUserInfo(SQLiteDatabase db, String address, String name, String email, String password, String type, double money) {
         ContentValues values = new ContentValues();
         values.putNull(GalleryConnector.User.ID);
-        values.put(GalleryConnector.User.ADDRESS,address);
-        values.put(GalleryConnector.User.NAME,name);
-        values.put(GalleryConnector.User.EMAIL,email);
-        values.put(GalleryConnector.User.PASS,password);
-        values.put(GalleryConnector.User.TYPE,type);
-        values.put(GalleryConnector.User.MONEY,money);
-        db.insert(GalleryConnector.User.TABLE_NAME,null,values);
+        values.put(GalleryConnector.User.ADDRESS, address);
+        values.put(GalleryConnector.User.NAME, name);
+        values.put(GalleryConnector.User.EMAIL, email);
+        values.put(GalleryConnector.User.PASS, password);
+        values.put(GalleryConnector.User.TYPE, type);
+        values.put(GalleryConnector.User.MONEY, money);
+        db.insert(GalleryConnector.User.TABLE_NAME, null, values);
     }
 
     public void updateUserProfile(SQLiteDatabase db, Integer id, String address, String username, String pass, byte[] img) {
         ContentValues values = new ContentValues();
-        values.put(GalleryConnector.User.ADDRESS,address);
-        values.put(GalleryConnector.User.NAME,username);
-        values.put(GalleryConnector.User.PASS,pass);
-        if(img == null) {
+        values.put(GalleryConnector.User.ADDRESS, address);
+        values.put(GalleryConnector.User.NAME, username);
+        values.put(GalleryConnector.User.PASS, pass);
+        if (img == null) {
             values.putNull(GalleryConnector.User.IMG);
-        }else{
-            values.put(GalleryConnector.User.IMG,img);
+        } else {
+            values.put(GalleryConnector.User.IMG, img);
         }
-        db.update(GalleryConnector.User.TABLE_NAME,values,"id="+id,null);
+        db.update(GalleryConnector.User.TABLE_NAME, values, "id=" + id, null);
     }
 
-    public Cursor testGetUserInfo(){
+    public Cursor testGetUserInfo() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + GalleryConnector.User.TABLE_NAME,null);
+        Cursor res = db.rawQuery("select * from " + GalleryConnector.User.TABLE_NAME, null);
         return res;
     }
 
-    public Cursor testGetTypeInfo(){
+    public Cursor testGetTypeInfo() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + GalleryConnector.Type.TABLE_NAME,null);
+        Cursor res = db.rawQuery("select * from " + GalleryConnector.Type.TABLE_NAME, null);
         return res;
     }
 
-    public Cursor testGetSubTypeInfo(){
+    public Cursor testGetSubTypeInfo() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + GalleryConnector.SubType.TABLE_NAME,null);
+        Cursor res = db.rawQuery("select * from " + GalleryConnector.SubType.TABLE_NAME, null);
         return res;
     }
 
-    public Cursor selectSubtypeForSpecType(String type){
+    public Cursor selectSubtypeForSpecType(String type) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT subtype FROM Subtypes join Types on Subtypes.type_id = Types.id WHERE Types.type = '"+type+"'";
-        Cursor res = db.rawQuery(sql,null);
+        String sql = "SELECT subtype FROM Subtypes join Types on Subtypes.type_id = Types.id WHERE Types.type = '" + type + "'";
+        Cursor res = db.rawQuery(sql, null);
         return res;
     }
 
     public Cursor getSoldItems(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME + " JOIN Users ON Items.seller_id = "+id+" WHERE Items.buyer_id IS NOT null";
-        Cursor res = db.rawQuery(sql,null);
+        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME + " JOIN Users ON Items.seller_id = " + id + " WHERE Items.buyer_id IS NOT null";
+        Cursor res = db.rawQuery(sql, null);
         return res;
     }
 
     public Cursor gelAllItems() {
         SQLiteDatabase db = getReadableDatabase();
         String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME + " WHERE Items.buyer_id IS null";
-        Cursor res = db.rawQuery(sql,null);
+        Cursor res = db.rawQuery(sql, null);
         return res;
     }
 
     public Cursor getUserName(int userID) {
         SQLiteDatabase db = getReadableDatabase();
         String sql = "SELECT name FROM " + GalleryConnector.User.TABLE_NAME + " WHERE Users.id IS '" + userID + "'";
-        Cursor res = db.rawQuery(sql,null);
+        Cursor res = db.rawQuery(sql, null);
         return res;
     }
 
-    public Cursor checkUserForImage(int userID){
+    public Cursor checkUserForImage(int userID) {
         SQLiteDatabase db = getReadableDatabase();
         String sql = "SELECT img FROM " + GalleryConnector.User.TABLE_NAME + " WHERE Users.id IS '" + userID + "'";
-        Cursor res = db.rawQuery(sql,null);
+        Cursor res = db.rawQuery(sql, null);
         return res;
+    }
+
+    public Cursor getItemsForSaleByType(String type) {
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "SELECT * FROM Items WHERE Items.typeItem = '" + type + "'";
+        Cursor result = db.rawQuery(sql, null);
+        return result;
+
+    }
+
+    public Cursor getItemsForSaleBySubtype(String subtype) {
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "SELECT * FROM Items WHERE Items.subtypeItem = '" + subtype + "'";
+        Cursor result = db.rawQuery(sql, null);
+        return result;
+
     }
 }
