@@ -1,8 +1,14 @@
 package com.example.lukas.artgallerydrow.controller;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,12 +18,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
 
 public class BuyerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ImageView userImage;
+    private TextView username, email, editProfile;
+    private int userID;
+    public static final int CHANGE_PROFILE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +40,70 @@ public class BuyerActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        userID = getIntent().getExtras().getInt("userID");
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        // drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View v = navigationView.getHeaderView(0);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        userImage = (ImageView) v.findViewById(R.id.buyer_img_header);
+        username = (TextView) v.findViewById(R.id.buyer_name_header);
+        email = (TextView) v.findViewById(R.id.buyer_email_header);
+        editProfile = (TextView) v.findViewById(R.id.buyer_edit_profile);
+
+        username.setText(getIntent().getExtras().getString("User").toString());
+        email.setText(getIntent().getExtras().getString("email").toString());
+
+
+        byte[] bytes = bytesImage();
+        if (bytes == null) {
+            userImage.setImageResource(R.mipmap.emptyprofile);
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+            RoundedBitmapDrawable round = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+            round.setCircular(true);
+
+            userImage.setImageDrawable(round);
+        }
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent1 = new Intent(BuyerActivity.this, UserProfileActivity.class);
+                intent1.putExtra("userID", userID);
+                startActivityForResult(intent1, CHANGE_PROFILE);
+            }
+        });
+
+
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == CHANGE_PROFILE){
+            if(resultCode == RESULT_CANCELED){
+                Toast.makeText(getApplicationContext(), "You canceled updates..", Toast.LENGTH_SHORT).show();
+            }else if(resultCode == RESULT_OK){
+                recreate();
+            }
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------------
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -92,5 +158,19 @@ public class BuyerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private byte[] bytesImage() {
+        DBOperations dbOper = new DBOperations(BuyerActivity.this);
+        Cursor res = dbOper.checkUserForImage(userID);
+        byte[] b = null;
+        while (res.moveToNext()) {
+            b = res.getBlob(0);
+        }
+        if (b == null) {
+            return null;
+        } else {
+            return b;
+        }
     }
 }
