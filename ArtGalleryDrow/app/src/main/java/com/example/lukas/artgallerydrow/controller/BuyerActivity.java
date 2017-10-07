@@ -79,15 +79,15 @@ public class BuyerActivity extends AppCompatActivity
             userImage.setImageDrawable(round);
         }
 
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent1 = new Intent(BuyerActivity.this, UserProfileActivity.class);
-                intent1.putExtra("userID", userID);
-                startActivityForResult(intent1, CHANGE_PROFILE);
-            }
-        });
+//        editProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent intent1 = new Intent(BuyerActivity.this, UserProfileActivity.class);
+//                intent1.putExtra("userID", userID);
+//                startActivityForResult(intent1, CHANGE_PROFILE);
+//            }
+//        });
 
 
     }
@@ -131,7 +131,10 @@ public class BuyerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.buyer_edit_profile) {
+            Intent intent1 = new Intent(BuyerActivity.this, UserProfileActivity.class);
+            intent1.putExtra("userID", userID);
+            startActivityForResult(intent1, CHANGE_PROFILE);
             return true;
         }
 
