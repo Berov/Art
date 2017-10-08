@@ -50,10 +50,16 @@ public class BuyerActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         // drawer.setDrawerListener(toggle);
         drawer.addDrawerListener(toggle);
+        //drawer.setBackgroundResource(R.color.colorMiddle);
+
+
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setBackgroundResource(R.color.colorMiddle);
+        navigationView.setItemBackgroundResource(R.color.colorAccent);
+
 
         View v = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);

@@ -53,6 +53,23 @@
             android:text="Logged as Buyer"
             android:textAlignment="textEnd"
             android:textColor="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/buyer_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Money in your wallet:"
+            android:textColor="@color/colorDark" />
+
+
+
+
+
     </LinearLayout>
+
+
+
+
 
 </LinearLayout>
