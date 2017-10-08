@@ -35,9 +35,9 @@ public class UserProfileActivity extends AppCompatActivity {
     int userID;
     Button btnCancel, btnUpdate, btnUploadImage;
 
-    boolean flagAddress = false;
-    boolean flagUsername = false;
-    boolean flagPass = false;
+    boolean flagAddress = true;
+    boolean flagUsername = true;
+    boolean flagPass = true;
     boolean flag = false;
     byte[] bytes;
 
@@ -51,13 +51,17 @@ public class UserProfileActivity extends AppCompatActivity {
         userID = getIntent().getExtras().getInt("userID");
 
         username = (EditText) findViewById(R.id.txtUsernameChange);
+        username.setText(getIntent().getStringExtra("name"));
         txtUserTextListener();
 
         address = (EditText) findViewById(R.id.txtAddressChange);
+        address.setText(getIntent().getStringExtra("address"));
         txtAddressTextListener();
 
         pass = (EditText) findViewById(R.id.txtPassChange);
+        pass.setText(getIntent().getStringExtra("pass"));
         confirm = (EditText) findViewById(R.id.txtPassConfirmChange);
+        confirm.setText(getIntent().getStringExtra("pass"));
         txtPassTextListener();
 
         btnCancel = (Button)findViewById(R.id.btnProfileCancel);

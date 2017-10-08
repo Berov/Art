@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
 
@@ -36,7 +38,7 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         mData.moveToPosition(position);
 
         String title = mData.getString(1);
@@ -53,16 +55,6 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
         holder.txtCustomDesc.setText(desc);
         holder.txtCustomPrice.setText("Price:" + price+"$");
         holder.imgCustomRow.setImageBitmap(bitmap);
-
-//        buff.append("ID: " + res.getString(0) + "\n");
-//        buff.append("Title: " + res.getString(1) + "\n");
-//        buff.append("Price: " + res.getString(2) + "\n");
-//        buff.append("Type: " + res.getString(4) + "\n");
-//        buff.append("SubType: " + res.getString(5) + "\n");
-//        buff.append("Desc: " + res.getString(6) + "\n");
-//        buff.append("SellerID: " + res.getString(7) + "\n");
-//        buff.append("Buyer_id: " + res.getString(8) + "\n\n");
-
     }
 
     @Override
@@ -70,14 +62,17 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
         return mData.getCount();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         // setvash si vsi4ki poleta ot custom_row_recycler(tvoq)
-        public TextView txtCustomTitle;
-        public TextView txtCustomDesc;
-        public TextView txtCustomPrice;
-        public ImageView imgCustomRow;
-        public TextView txtType;
-        public TextView txtSubType;
+        private TextView txtCustomTitle;
+        private TextView txtCustomDesc;
+        private TextView txtCustomPrice;
+        private ImageView imgCustomRow;
+        private TextView txtType;
+        private TextView txtSubType;
+        private Button test;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -89,7 +84,6 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
             imgCustomRow = (ImageView) itemView.findViewById(R.id.img_row);
             txtType = (TextView) itemView.findViewById(R.id.type_row);
             txtSubType = (TextView) itemView.findViewById(R.id.subtype_row);
-            // vij za click listener
 
         }
 

@@ -58,35 +58,35 @@ public class TempTestActivity extends AppCompatActivity {
         subtypes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showItems();
+               // showItems();
             }
         });
 
     }
 
-    private void showItems(){
-        DBOperations dbOper = new DBOperations(TempTestActivity.this);
-        Cursor res = dbOper.gelAllItems();
-
-
-        if (res.getCount() == 0) {
-            showMessage("Error!", "Nothing found!");
-            return;
-        }
-
-        StringBuffer buff = new StringBuffer();
-        while (res.moveToNext()) {
-            buff.append("ID: " + res.getString(0) + "\n");
-            buff.append("Title: " + res.getString(1) + "\n");
-            buff.append("Price: " + res.getString(2) + "\n");
-            buff.append("Type: " + res.getString(4) + "\n");
-            buff.append("SubType: " + res.getString(5) + "\n");
-            buff.append("Desc: " + res.getString(6) + "\n");
-            buff.append("SellerID: " + res.getString(7) + "\n");
-            buff.append("Buyer_id: " + res.getString(8) + "\n\n");
-        }
-        showMessage("Data", buff.toString());
-    }
+//    private void showItems(){
+//        DBOperations dbOper = new DBOperations(TempTestActivity.this);
+//        Cursor res = dbOper.gelAllItems();
+//
+//
+//        if (res.getCount() == 0) {
+//            showMessage("Error!", "Nothing found!");
+//            return;
+//        }
+//
+//        StringBuffer buff = new StringBuffer();
+//        while (res.moveToNext()) {
+//            buff.append("ID: " + res.getString(0) + "\n");
+//            buff.append("Title: " + res.getString(1) + "\n");
+//            buff.append("Price: " + res.getString(2) + "\n");
+//            buff.append("Type: " + res.getString(4) + "\n");
+//            buff.append("SubType: " + res.getString(5) + "\n");
+//            buff.append("Desc: " + res.getString(6) + "\n");
+//            buff.append("SellerID: " + res.getString(7) + "\n");
+//            buff.append("Buyer_id: " + res.getString(8) + "\n\n");
+//        }
+//        showMessage("Data", buff.toString());
+//    }
 
     private void testSubTypeView(){
         DBOperations dbOper = new DBOperations(TempTestActivity.this);

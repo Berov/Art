@@ -14,6 +14,7 @@ import android.util.Log;
 public class DBOperations extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "Gallery.db";
+    Cursor res = null;
 
     private static final String USER_QUERY = "create table "
             + GalleryConnector.User.TABLE_NAME + "("
@@ -192,15 +193,15 @@ public class DBOperations extends SQLiteOpenHelper {
 
     public Cursor getSoldItems(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME + " JOIN Users ON Items.seller_id = " + id + " WHERE Items.buyer_id IS NOT null";
+        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME + " WHERE Items.buyer_id IS NOT null AND Items.seller_id IS '"+ id +"'";
         Cursor res = db.rawQuery(sql, null);
         return res;
     }
-
-    public Cursor gelAllItems() {
+    public Cursor gelAllItems(int id) {
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME + " WHERE Items.buyer_id IS null";
+        String sql = "SELECT * FROM " + GalleryConnector.Items.TABLE_NAME + " WHERE Items.buyer_id IS null AND Items.seller_id IS '"+ id +"'";
         Cursor res = db.rawQuery(sql, null);
+
         return res;
     }
 
@@ -232,5 +233,12 @@ public class DBOperations extends SQLiteOpenHelper {
         Cursor result = db.rawQuery(sql, null);
         return result;
 
+    }
+
+    public Cursor getInfoForUserByID(int id){
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "SELECT * FROM Users WHERE Users.id = '" + id +  "'";
+        Cursor res = db.rawQuery(sql,null);
+        return res;
     }
 }

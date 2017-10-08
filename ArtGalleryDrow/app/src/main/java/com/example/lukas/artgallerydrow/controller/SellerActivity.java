@@ -32,6 +32,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class SellerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,8 +45,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     private TextView headerEmail;
     private ImageView imageHeader;
     private int userID;
-
-    private CustomRecyclerViewSeller adapter;
+    private  byte[] bytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +74,9 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
 
         imageHeader = (ImageView) v.findViewById(R.id.imgHeaderSeller);
 
-        allItemsForSale();
+        allItemsForSale(userID);
 
-        byte[] bytes = bytesImage();
+        bytes = bytesImage();
         if(bytes == null){
             imageHeader.setImageResource(R.mipmap.emptyprofile);
         }else{
@@ -118,7 +118,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     @Override
     protected void onResume() {
         super.onResume();
-        allItemsForSale();
+        allItemsForSale(userID);
     }
 
     @Override
@@ -144,16 +144,20 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
 
             RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
             recycler.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new CustomRecyclerViewSeller(this,res);
+            CustomRecyclerViewSeller adapter = new CustomRecyclerViewSeller(this,res);
             //add adapter clicklisteners eventualno
             recycler.setAdapter(adapter);
         } else if (id == R.id.nav_itemsForSale) {
-            allItemsForSale();
+            allItemsForSale(userID);
         } else if (id == R.id.nav_addItem) {
             openGallery();
         } else if(id == R.id.nav_profile_settings){
+            ArrayList builder = getUserInfo(userID);
             Intent intent1 = new Intent(SellerActivity.this,UserProfileActivity.class);
             intent1.putExtra("userID",userID);
+            intent1.putExtra("name",builder.get(0).toString());
+            intent1.putExtra("address", builder.get(1).toString());
+            intent1.putExtra("pass", builder.get(2).toString());
             startActivityForResult(intent1, CHANGE_PROFILE);
         }
 
@@ -162,18 +166,33 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
-    private void allItemsForSale() {
+    private ArrayList getUserInfo(int userID) {
+        DBOperations dbOper = new DBOperations(this);
+        Cursor res = dbOper.getInfoForUserByID(userID);
+        ArrayList builder = new ArrayList();
+        while (res.moveToNext()){
+            builder.add(res.getString(2));
+            builder.add(res.getString(1));
+            builder.add(res.getString(4));
+        }
+        return builder;
+    }
+
+    private void allItemsForSale(int id) {
         DBOperations dbOper = new DBOperations(SellerActivity.this);
-        Cursor res = dbOper.gelAllItems();
+        Cursor res = dbOper.gelAllItems(id);
+
         if(res == null){
             Toast.makeText(getApplicationContext(),"No image for sale!", Toast.LENGTH_SHORT).show();
             return;
         }
+
         RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CustomRecyclerViewSeller(this,res);
-        //add adapter clicklisteners eventualno
+        CustomRecyclerViewSeller adapter = new CustomRecyclerViewSeller(this,res);
+
         recycler.setAdapter(adapter);
+
     }
 
     public void openGallery() {
@@ -192,6 +211,8 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
 
                 CropImage.activity(uriImg)
                         .setGuidelines(CropImageView.Guidelines.ON)
+                        .setCropShape(CropImageView.CropShape.RECTANGLE)
+                        .setAspectRatio(1,1)
                         .setMinCropResultSize(100,100)
                         .setMaxCropResultSize(1281,1282)
                         .start(this);
