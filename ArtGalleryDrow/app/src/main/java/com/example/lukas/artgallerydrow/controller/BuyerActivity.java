@@ -62,6 +62,7 @@ public class BuyerActivity extends AppCompatActivity
         username = (TextView) v.findViewById(R.id.buyer_name_header);
         email = (TextView) v.findViewById(R.id.buyer_email_header);
         editProfile = (TextView) v.findViewById(R.id.buyer_edit_profile);
+        //TODO add money!!!!!!!!!!!!!!!!!!!!!!
 
         username.setText(getIntent().getExtras().getString("User").toString());
         email.setText(getIntent().getExtras().getString("email").toString());
@@ -136,6 +137,10 @@ public class BuyerActivity extends AppCompatActivity
             intent1.putExtra("userID", userID);
             startActivityForResult(intent1, CHANGE_PROFILE);
             return true;
+        }else if(id == R.id.buyer_logout){
+            Intent intent1 = new Intent(BuyerActivity.this, LoginActivity.class);
+            startActivity(intent1);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -150,18 +155,119 @@ public class BuyerActivity extends AppCompatActivity
         if (id == R.id.b_grapphics) {
             //TextView camera = (TextView) findViewById(R.id.temp_test);
             //camera.setText("this is camera");
-
             getItemByType("graphics");
-
 
         } else if (id == R.id.b_linocut) {
             getItemBySubtype("linocut");
 
         } else if (id == R.id.b_screen_printing) {
+            getItemBySubtype("screen printing");
 
         } else if (id == R.id.b_etching) {
+            getItemBySubtype("etching");
+
+
+        } else if (id == R.id.b_painting) {//-----------
+            getItemByType("painting");
+
+        } else if (id == R.id.b_aquarelle) {
+            getItemBySubtype("aquarelle");
+
+        } else if (id == R.id.b_oil_painting) {
+            getItemBySubtype("oil painting");
+
+        } else if (id == R.id.b_acrylic_painting) {
+            getItemBySubtype("acrylic painting");
+
+        } else if (id == R.id.b_charcoal) {
+            getItemBySubtype("charcoal");
+
+        } else if (id == R.id.b_pencil_painting) {
+            getItemBySubtype("pencil painting");
+
+        } else if (id == R.id.b_pastel) {
+            getItemBySubtype("pastel");
+
+        } else if (id == R.id.b_sculpture) {//-----------
+            getItemByType("sculpture");
+
+        } else if (id == R.id.b_stone) {
+            getItemBySubtype("stone");
+
+        } else if (id == R.id.b_metal) {
+            getItemBySubtype("metal");
+
+        } else if (id == R.id.b_gypsum) {
+            getItemBySubtype("gypsum");
+
+        } else if (id == R.id.b_wood_carving) {//-----------
+            getItemByType("wood carving");
+
+        } else if (id == R.id.b_classic_wood_carving) {
+            getItemBySubtype("classic wood carving");
+
+        } else if (id == R.id.b_modern_carving) {
+            getItemBySubtype("modern carving");
+
+        } else if (id == R.id.b_interior_carving) {
+            getItemBySubtype("interior carving");
+
+        } else if (id == R.id.b_souvenir_woodcarving) {
+            getItemBySubtype("souvenir woodcarving");
+
+        } else if (id == R.id.b_ceramics) {//-----------
+            getItemByType("ceramics");
+
+        } else if (id == R.id.b_wall_panel) {
+            getItemBySubtype("wall panel");
+
+        } else if (id == R.id.b_souvenir_ceramics) {
+            getItemBySubtype("souvenir ceramics");
+
+        } else if (id == R.id.b_household_ceramics) {
+            getItemBySubtype("household ceramics");
+
+        } else if (id == R.id.b_glassware) {//-----------
+            getItemByType("glassware");
+
+        } else if (id == R.id.b_stained_glass) {
+            getItemBySubtype("stained glass");
+
+        } else if (id == R.id.b_household_glass_sculpture) {
+            getItemBySubtype("household glass sculpture");
+
+        } else if (id == R.id.b_souvenir_glass) {
+            getItemBySubtype("souvenir glass");
+
+        } else if (id == R.id.b_jewelery) {
+            getItemBySubtype("jewelery");
+
+        } else if (id == R.id.b_extiles) {//-----------
+            getItemByType("textiles");
+
+        } else if (id == R.id.b_clothes) {
+            getItemBySubtype("clothes");
+
+        } else if (id == R.id.b_accessories) {
+            getItemBySubtype("accessories");
+
+        } else if (id == R.id.b_textile_panel) {
+            getItemBySubtype("textile panel");
+
+        } else if (id == R.id.b_carpets) {
+            getItemBySubtype("carpets");
+
+        } else if (id == R.id.b_iconography) {//-----------
+            getItemByType("iconography");
+
+        } else if (id == R.id.b_new_style) {
+            getItemBySubtype("new style");
+
+        } else if (id == R.id.b_old_style) {
+            getItemBySubtype("old style");
 
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -197,8 +303,6 @@ public class BuyerActivity extends AppCompatActivity
         recycler.setAdapter(adapter);
 
     }
-
-
 
 
     private byte[] bytesImage() {
