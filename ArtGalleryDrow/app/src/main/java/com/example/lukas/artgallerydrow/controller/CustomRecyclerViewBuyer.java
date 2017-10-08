@@ -79,6 +79,8 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
                     intent.putExtra("userID",buyerID);
                     ct.startActivity(intent);
 
+                }else{
+                    Toast.makeText(ct, "Sorry! You have not enought money to buy this item!", Toast.LENGTH_LONG).show();
                 }
             }
         });
