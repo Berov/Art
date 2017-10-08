@@ -34,7 +34,9 @@
             android:layout_weight="1"
             android:text="Android Studio"
             android:textAlignment="textEnd"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/buyer_email_header"
@@ -42,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="mail"
-            android:textAlignment="textEnd" />
+            android:textAlignment="textEnd"
+            android:textSize="12sp" />
 
 
         <TextView
@@ -52,15 +55,19 @@
             android:layout_weight="1"
             android:text="Logged as Buyer"
             android:textAlignment="textEnd"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/buyer_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Money in your wallet:"
-            android:textColor="@color/colorDark" />
+            android:text="Wallet: 1000 blv."
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorDark"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
 
 

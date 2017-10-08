@@ -1,6 +1,7 @@
 package com.example.lukas.artgallerydrow.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
 
@@ -21,10 +24,16 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
 
     private Cursor customCursorItemsData;
     private LayoutInflater inflater;
+    private  String money;
+    private int buyerID;
+    private Context ct;
 
-    public CustomRecyclerViewBuyer(Cursor customCursorItemsData, Context ctx) {
+    public CustomRecyclerViewBuyer(Cursor customCursorItemsData, Context ctx, String money, int buyerID) {
         this.customCursorItemsData = customCursorItemsData;
         this.inflater = LayoutInflater.from(ctx);
+        this.money = money;
+        this.buyerID=buyerID;
+        this.ct = ctx;
     }
 
 
@@ -36,19 +45,62 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         customCursorItemsData.moveToPosition(position);
 
 
-        //provi id-tata na tablicata
-        String price = customCursorItemsData.getString(2);
+        //provi id-tata na tablicata --------------------------------------------------------------------------
+        final int sellerID = customCursorItemsData.getInt(7);
+        String itemDescription = customCursorItemsData.getString(6);
+        final String price = customCursorItemsData.getString(2);
+        String title = customCursorItemsData.getString(1);
         byte[] image = customCursorItemsData.getBlob(3);
         Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+        final  int itemID = customCursorItemsData.getInt(0);
 
-        holder.itemTitle.setText("Някаква проба");
+        holder.itemTitle.setText(title);
+        holder.itemPrice.setText("Price: " + price +"$");
+        holder.itemDescription.setText("    " + itemDescription);
         holder.itemImage.setImageBitmap(bitmap);
+        holder.itemButtonBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double userMoney = Double.parseDouble(money);
+                double itemMoney = Double.parseDouble(price);
+
+                if(userMoney >= itemMoney){
+                    double rest = userMoney-itemMoney;
+
+
+                    changeBuyerMoney(buyerID, rest);
+                    changeSellerMoney(sellerID, itemMoney);
+                    setItemBuyerID(buyerID, itemID);
+                    Intent intent = new Intent(ct, BuyerActivity.class);
+                    intent.putExtra("userID",buyerID);
+                    ct.startActivity(intent);
+
+                }
+            }
+        });
+
 // prihvashtam info ot kursora i se setva  na holdera
 
+    }
+
+    private void setItemBuyerID(int buyerID, int itemID) {
+        DBOperations dbo = new DBOperations(ct);
+        dbo.updateItemRow(itemID, buyerID);
+        Toast.makeText(ct,"Congratulations item updated", Toast.LENGTH_LONG).show();
+    }
+
+    private void changeSellerMoney(int sellerID, double itemMoney) {
+        DBOperations dbo = new DBOperations(ct);
+        dbo.updateSellerMoney(sellerID,itemMoney);
+    }
+
+    private void changeBuyerMoney(int buyerID, double rest) {
+        DBOperations dbo = new DBOperations(ct);
+        dbo.updateBuyerMoney(buyerID,rest);
     }
 
     @Override
@@ -59,13 +111,20 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView itemImage;
         private TextView itemTitle;
-//deklariram vsi`ko ot custom row
+        private TextView itemDescription;
+        private TextView itemPrice;
+        private Button itemButtonBuy;
+//deklariram vsi`ko ot custom row----------------------------------------------------------------------------
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             itemImage = (ImageView) itemView.findViewById(R.id.item_image);
             itemTitle = (TextView) itemView.findViewById(R.id.item_title_text_view);
+            itemDescription = (TextView) itemView.findViewById(R.id.item_description_text_view);
+            itemPrice = (TextView) itemView.findViewById(R.id.item_price_text_view);
+            itemButtonBuy = (Button) itemView.findViewById(R.id.item_btn_buy);
+
 //TODO hvashtam po id deklariranite gore
 
         }

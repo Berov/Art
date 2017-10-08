@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
 
+import java.util.ArrayList;
+
 public class BuyerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -33,6 +35,8 @@ public class BuyerActivity extends AppCompatActivity
     private TextView username, email, editProfile;
     private int userID;
     public static final int CHANGE_PROFILE = 1;
+    private TextView money;
+    private String userMoneyFromdb;
 
 
     @Override
@@ -67,11 +71,21 @@ public class BuyerActivity extends AppCompatActivity
         username = (TextView) v.findViewById(R.id.buyer_name_header);
         email = (TextView) v.findViewById(R.id.buyer_email_header);
         editProfile = (TextView) v.findViewById(R.id.buyer_edit_profile);
-        //TODO add money!!!!!!!!!!!!!!!!!!!!!!
+        money = (TextView) v.findViewById(R.id.buyer_money);
 
-        username.setText(getIntent().getExtras().getString("User").toString());
-        email.setText(getIntent().getExtras().getString("email").toString());
+        ArrayList userData = getUserInfoById(userID);
+        String usernameFromdb = userData.get(2).toString();
+        String emailFromdb = userData.get(1).toString();
+        userMoneyFromdb = userData.get(0).toString();
 
+
+        username.setText(usernameFromdb);
+        email.setText(emailFromdb);
+        //userMoney = getUserMoneyById(userID);
+        money.setText("Wallet: " + userMoneyFromdb + "$");
+
+        //money.setText(getIntent().getExtras().getString("money").toString());
+        //TODO add money!!!!!!!!!!!!!!!!!!!!!! check it where are putted to the intent???
 
         byte[] bytes = bytesImage();
         if (bytes == null) {
@@ -96,6 +110,22 @@ public class BuyerActivity extends AppCompatActivity
 //        });
 
 
+    }
+
+    private ArrayList getUserInfoById(int userID) {
+
+        DBOperations dbo = new DBOperations(this);
+        Cursor res = dbo.getInfoForUserByID(userID);
+        ArrayList data = new ArrayList();
+        String m = "-1";
+        while (res.moveToNext()) {
+            data.add(res.getString(6));
+            data.add(res.getString(3));
+            data.add(res.getString(2));
+            //m = res.getString(6);
+        }
+
+        return data;
     }
 
     @Override
@@ -142,7 +172,7 @@ public class BuyerActivity extends AppCompatActivity
             intent1.putExtra("userID", userID);
             startActivityForResult(intent1, CHANGE_PROFILE);
             return true;
-        }else if(id == R.id.buyer_logout){
+        } else if (id == R.id.buyer_logout) {
             Intent intent1 = new Intent(BuyerActivity.this, LoginActivity.class);
             startActivity(intent1);
             finish();
@@ -289,7 +319,7 @@ public class BuyerActivity extends AppCompatActivity
         }
         RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        CustomRecyclerViewBuyer adapter = new CustomRecyclerViewBuyer(dbResult, this);
+        CustomRecyclerViewBuyer adapter = new CustomRecyclerViewBuyer(dbResult, this, userMoneyFromdb, userID);
         recycler.setAdapter(adapter);
 
     }
@@ -304,7 +334,7 @@ public class BuyerActivity extends AppCompatActivity
         }
         RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        CustomRecyclerViewBuyer adapter = new CustomRecyclerViewBuyer(dbResult, this);
+        CustomRecyclerViewBuyer adapter = new CustomRecyclerViewBuyer(dbResult, this, userMoneyFromdb, userID);
         recycler.setAdapter(adapter);
 
     }

@@ -153,6 +153,34 @@ public class DBOperations extends SQLiteOpenHelper {
         db.insert(GalleryConnector.User.TABLE_NAME, null, values);
     }
 
+    public void updateItemRow(int itemID, int buyerID) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(GalleryConnector.Items.BUYER_ID,buyerID);
+        db.update(GalleryConnector.Items.TABLE_NAME,values,"id="+itemID,null);
+    }
+
+    public void updateBuyerMoney(int buyerID, double resMoney){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(GalleryConnector.User.MONEY,resMoney);
+        db.update(GalleryConnector.User.TABLE_NAME,values,"id="+buyerID,null);
+    }
+
+    public void updateSellerMoney(int sellerID, double itemMoney) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor res = db.rawQuery("select * from " + GalleryConnector.User.TABLE_NAME + " WHERE Users.id IS '"+sellerID+"'", null);
+        String money = "-1";
+        while (res.moveToNext()){
+            money = res.getString(6);
+        }
+        double userCurrentMoney = Double.parseDouble(money);
+        double moneyForUpdate = userCurrentMoney + itemMoney;
+        ContentValues values = new ContentValues();
+        values.put(GalleryConnector.User.MONEY,moneyForUpdate);
+        db.update(GalleryConnector.User.TABLE_NAME,values,"id="+sellerID,null);
+    }
+
     public void updateUserProfile(SQLiteDatabase db, Integer id, String address, String username, String pass, byte[] img) {
         ContentValues values = new ContentValues();
         values.put(GalleryConnector.User.ADDRESS, address);
@@ -221,7 +249,7 @@ public class DBOperations extends SQLiteOpenHelper {
 
     public Cursor getItemsForSaleByType(String type) {
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM Items WHERE Items.typeItem = '" + type + "'";
+        String sql = "SELECT * FROM Items WHERE Items.typeItem = '" + type + "' AND Items.buyer_id IS null";
         Cursor result = db.rawQuery(sql, null);
         return result;
 
@@ -229,7 +257,7 @@ public class DBOperations extends SQLiteOpenHelper {
 
     public Cursor getItemsForSaleBySubtype(String subtype) {
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM Items WHERE Items.subtypeItem = '" + subtype + "'";
+        String sql = "SELECT * FROM Items WHERE Items.subtypeItem = '" + subtype + "' AND Items.buyer_id IS null";
         Cursor result = db.rawQuery(sql, null);
         return result;
 
@@ -241,4 +269,5 @@ public class DBOperations extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(sql,null);
         return res;
     }
+
 }
