@@ -42,12 +42,8 @@ public class BuyerActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-<<<<<<< HEAD
-=======
         userID = getIntent().getExtras().getInt("userID");
 
-
->>>>>>> 40d7c4fc54fd5c848832d01dc83e7b1548210c1b
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
