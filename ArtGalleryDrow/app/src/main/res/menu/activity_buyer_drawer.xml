@@ -1,100 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Graphics">
+    <item android:title="Sellect type or subtype">
         <menu>
             <group android:checkableBehavior="single">
-                <item android:title="       linocut" />
-                <item android:title="       screen printing" />
-                <item android:title="       etching" />
+                <item
+                    android:id="@+id/b_grapphics"
+                    android:title="Graphics" />
+                <item
+                    android:id="@+id/b_linocut"
+                    android:title="       linocut" />
+                <item
+                    android:id="@+id/b_screen_printing"
+                    android:title="       screen printing" />
+                <item
+                    android:id="@+id/b_etching"
+                    android:title="       etching" />
 
                 <!--<item-->
                 <!--android:id="@+id/nav_manage"-->
                 <!--android:icon="@drawable/ic_menu_manage"-->
                 <!--android:title="Tools" />-->
             </group>
-        </menu>
-    </item>
-
-    <item android:title="Painting">
-        <menu>
             <group android:checkableBehavior="single">
-                <item android:title="       aquarelle" />
-                <item android:title="       oil painting" />
-                <item android:title="       acrylic painting" />
-                <item android:title="       charcoal" />
-                <item android:title="       pencil painting" />
-                <item android:title="       pastel" />
-
+                <item
+                    android:id="@+id/b_painting"
+                    android:title="Painting" />
+                <item
+                    android:id="@+id/b_aquarelle"
+                    android:title="       aquarelle" />
+                <item
+                    android:id="@+id/b_oil_painting"
+                    android:title="       oil painting" />
+                <item
+                    android:id="@+id/b_acrylic_painting"
+                    android:title="       acrylic painting" />
+                <item
+                    android:id="@+id/b_charcoal"
+                    android:title="       charcoal" />
+                <item
+                    android:id="@+id/b_pencil_painting"
+                    android:title="       pencil painting" />
+                <item
+                    android:id="@+id/b_pastel"
+                    android:title="       pastel" />
+            </group>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/b_sculpture"
+                    android:title="Sculpture" />
+                <item
+                    android:id="@+id/b_stone"
+                    android:title="       stone" />
+                <item
+                    android:id="@+id/b_metal"
+                    android:title="       metal" />
+                <item
+                    android:id="@+id/b_gypsum"
+                    android:title="       gypsum" />
+            </group>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/b_wood_carving"
+                    android:title="Wood Carving" />
+                <item
+                    android:id="@+id/b_classic_wood_carving"
+                    android:title="       classic wood carving" />
+                <item
+                    android:id="@+id/b_modern_carving"
+                    android:title="       modern carving" />
+                <item
+                    android:id="@+id/b_interior_carving"
+                    android:title="       interior carving" />
+                <item
+                    android:id="@+id/b_souvenir_woodcarving"
+                    android:title="       souvenir woodcarving" />
+            </group>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/b_ceramics"
+                    android:title="Ceramics" />
+                <item
+                    android:id="@+id/b_wall_panel"
+                    android:title="       wall panel" />
+                <item
+                    android:id="@+id/b_souvenir_ceramics"
+                    android:title="       souvenir ceramics" />
+                <item
+                    android:id="@+id/b_household_ceramics"
+                    android:title="       household ceramics" />
+            </group>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/b_glassware"
+                    android:title="Glassware" />
+                <item
+                    android:id="@+id/b_stained_glass"
+                    android:title="       stained glass" />
+                <item
+                    android:id="@+id/b_household_glass_sculpture"
+                    android:title="       household glass sculpture" />
+                <item
+                    android:id="@+id/b_souvenir_glass"
+                    android:title="       souvenir glass" />
+                <item
+                    android:id="@+id/b_jewelery"
+                    android:title="       jewelery" />
+            </group>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/b_extiles"
+                    android:title="Textiles" />
+                <item
+                    android:id="@+id/b_clothes"
+                    android:title="       clothes" />
+                <item
+                    android:id="@+id/b_accessories"
+                    android:title="       accessories" />
+                <item
+                    android:id="@+id/b_textile_panel"
+                    android:title="       textile panel" />
+                <item
+                    android:id="@+id/b_carpets"
+                    android:title="       carpets" />
+            </group>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/b_iconography"
+                    android:title="Iconography" />
+                <item
+                    android:id="@+id/b_new_style"
+                    android:title="       new style" />
+                <item
+                    android:id="@+id/b_old_style"
+                    android:title="       old style" />
             </group>
         </menu>
+
     </item>
+    <!--</item>-->
 
-    <item android:title="Sculpture">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item android:title="       stone" />
-                <item android:title="       metal" />
-                <item android:title="       gypsum" />
-            </group>
-        </menu>
-    </item>
+    <!--<item android:title="Painting">-->
+        <!--<menu>-->
+         <!---->
+        <!--</menu>-->
+    <!--</item>-->
+
+    <!--<item android:title="Sculpture">-->
+        <!--<menu>-->
+          <!---->
+        <!--</menu>-->
+    <!--</item>-->
 
 
-    <item android:title="Wood Carving">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item android:title="       classic wood carving" />
-                <item android:title="       modern carving" />
-                <item android:title="       interior carving" />
-                <item android:title="       souvenir woodcarving" />
+    <!--<item android:title="Wood Carving">-->
+        <!--<menu>-->
+         <!---->
+        <!--</menu>-->
+    <!--</item>-->
 
-            </group>
-        </menu>
-    </item>
+    <!--<item android:title="Ceramics">-->
+        <!--<menu>-->
+          <!---->
+        <!--</menu>-->
+    <!--</item>-->
 
-    <item android:title="Ceramics">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item android:title="       wall panel" />
-                <item android:title="       souvenir ceramics" />
-                <item android:title="       household ceramics" />
-            </group>
-        </menu>
-    </item>
+    <!--<item android:title="Glassware">-->
+        <!--<menu>-->
+         <!---->
+        <!--</menu>-->
+    <!--</item>-->
 
-    <item android:title="Glassware">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item android:title="       stained glass" />
-                <item android:title="       household glass sculpture" />
-                <item android:title="       souvenir glass" />
-                <item android:title="       jewelery" />
+    <!--<item android:title="Textiles">-->
+        <!--<menu>-->
+           <!---->
+        <!--</menu>-->
+    <!--</item>-->
 
-            </group>
-        </menu>
-    </item>
-
-    <item android:title="Textiles">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item android:title="       clothes" />
-                <item android:title="       accessories" />
-                <item android:title="       textile panel" />
-                <item android:title="       carpets" />
-
-            </group>
-        </menu>
-    </item>
-
-    <item android:title="Iconography">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item android:title="       new style" />
-                <item android:title="       old style" />
-            </group>
-        </menu>
-    </item>
+    <!--<item android:title="Iconography">-->
+        <!--<menu>-->
+          <!---->
+        <!--</menu>-->
+    <!--</item>-->
 
 
 </menu>

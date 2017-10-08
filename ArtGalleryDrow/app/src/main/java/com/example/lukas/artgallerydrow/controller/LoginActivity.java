@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     }else{
                         Intent intent = new Intent(LoginActivity.this,BuyerActivity.class);
+                        intent.putExtra("userID",userID);
                         intent.putExtra("userType",type);
                         intent.putExtra("User", nameUser);
                         intent.putExtra("email", email);
