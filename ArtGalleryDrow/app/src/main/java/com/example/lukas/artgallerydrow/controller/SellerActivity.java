@@ -43,6 +43,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
 
     private TextView headerUser;
     private TextView headerEmail;
+    private TextView headerMoney;
     private ImageView imageHeader;
     private int userID;
     private  byte[] bytes;
@@ -71,6 +72,10 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
         headerUser.setText(getUsername());
 
         headerEmail = (TextView) v.findViewById(R.id.nav_header_seller_email);
+        headerEmail.setText(getIntent().getExtras().getString("email"));
+
+        headerMoney = (TextView) v.findViewById(R.id.nav_header_seller_money);
+        headerMoney.setText("Wallet: " + getMoneyFromDb(userID) + "$");
 
         imageHeader = (ImageView) v.findViewById(R.id.imgHeaderSeller);
 
@@ -88,7 +93,16 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
             imageHeader.setImageDrawable(round);
         }
 
-        headerEmail.setText(getIntent().getExtras().getString("email"));
+    }
+
+    private String getMoneyFromDb(int userID) {
+        DBOperations dbo = new DBOperations(this);
+        Cursor cursor = dbo.getInfoForUserByID(userID);
+        String money = "-1";
+        while (cursor.moveToNext()){
+            money = cursor.getString(6);
+        }
+        return money;
     }
 
     private byte[] bytesImage(){
@@ -159,6 +173,10 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
             intent1.putExtra("address", builder.get(1).toString());
             intent1.putExtra("pass", builder.get(2).toString());
             startActivityForResult(intent1, CHANGE_PROFILE);
+        } else if(id == R.id.nav_logout){
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.seller_drow_layout);

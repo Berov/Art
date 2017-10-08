@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:padding="10dp"
             android:layout_weight="1"
             >
 
@@ -31,16 +31,27 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="25sp"
-                android:gravity="bottom"/>
+                android:gravity="top"/>
 
             <TextView
                 android:id="@+id/nav_header_seller_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:layout_weight="1"
                 android:gravity="top"
                 android:textStyle="italic"/>
+
+            <TextView
+                android:id="@+id/nav_header_seller_money"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryDark"/>
+
 
         </LinearLayout>
 
