@@ -1,11 +1,10 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Controller;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
+import com.example.lukas.artgallerydrow.controller.Model.BackgroundDBTasks;
+import com.example.lukas.artgallerydrow.controller.Utils.Validator;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -117,7 +118,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
+                Toast.makeText(getApplicationContext(),"Somethings wrong with cropping...", Toast.LENGTH_SHORT).show();
             }
         }
     }

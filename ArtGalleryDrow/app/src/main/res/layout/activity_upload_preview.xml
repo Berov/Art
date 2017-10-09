@@ -12,7 +12,7 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:background="@color/colorAccent"
-    tools:context="com.example.lukas.artgallerydrow.controller.UploadPreview">
+    tools:context="com.example.lukas.artgallerydrow.controller.Controller.UploadPreview">
 
     <EditText
         android:layout_width="match_parent"

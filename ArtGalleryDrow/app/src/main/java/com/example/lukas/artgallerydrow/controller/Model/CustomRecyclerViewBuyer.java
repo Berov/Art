@@ -1,4 +1,4 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Model;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
+import com.example.lukas.artgallerydrow.controller.Controller.BuyerActivity;
 
 /**
  * Created by Lukas on 7.10.2017 г..
@@ -36,7 +37,6 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
         this.ct = ctx;
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_custom_row, parent, false);
@@ -48,8 +48,6 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
     public void onBindViewHolder(final ViewHolder holder, int position) {
         customCursorItemsData.moveToPosition(position);
 
-
-        //provi id-tata na tablicata --------------------------------------------------------------------------
         final int sellerID = customCursorItemsData.getInt(7);
         String itemDescription = customCursorItemsData.getString(6);
         final String price = customCursorItemsData.getString(2);
@@ -71,7 +69,6 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
                 if(userMoney >= itemMoney){
                     double rest = userMoney-itemMoney;
 
-
                     changeBuyerMoney(buyerID, rest);
                     changeSellerMoney(sellerID, itemMoney);
                     setItemBuyerID(buyerID, itemID);
@@ -85,23 +82,20 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
             }
         });
 
-// prihvashtam info ot kursora i se setva  na holdera
-
     }
 
     private void setItemBuyerID(int buyerID, int itemID) {
-        DBOperations dbo = new DBOperations(ct);
+        DBOperations dbo = DBOperations.getInstance(ct);
         dbo.updateItemRow(itemID, buyerID);
-        Toast.makeText(ct,"Congratulations item updated", Toast.LENGTH_LONG).show();
     }
 
     private void changeSellerMoney(int sellerID, double itemMoney) {
-        DBOperations dbo = new DBOperations(ct);
+        DBOperations dbo = DBOperations.getInstance(ct);
         dbo.updateSellerMoney(sellerID,itemMoney);
     }
 
     private void changeBuyerMoney(int buyerID, double rest) {
-        DBOperations dbo = new DBOperations(ct);
+        DBOperations dbo = DBOperations.getInstance(ct);
         dbo.updateBuyerMoney(buyerID,rest);
     }
 
@@ -116,7 +110,6 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
         private TextView itemDescription;
         private TextView itemPrice;
         private Button itemButtonBuy;
-//deklariram vsi`ko ot custom row----------------------------------------------------------------------------
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -127,10 +120,7 @@ public class CustomRecyclerViewBuyer extends RecyclerView.Adapter<CustomRecycler
             itemPrice = (TextView) itemView.findViewById(R.id.item_price_text_view);
             itemButtonBuy = (Button) itemView.findViewById(R.id.item_btn_buy);
 
-//TODO hvashtam po id deklariranite gore
-
         }
-
 
     }
 }

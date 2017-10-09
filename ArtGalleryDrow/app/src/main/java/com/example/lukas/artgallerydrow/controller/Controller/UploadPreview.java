@@ -1,12 +1,10 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Controller;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,10 +19,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.lukas.artgallerydrow.R;
+import com.example.lukas.artgallerydrow.controller.Model.BackgroundDBTasks;
+import com.example.lukas.artgallerydrow.controller.Model.DBOperations;
+import com.example.lukas.artgallerydrow.controller.Utils.Validator;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -75,7 +74,6 @@ public class UploadPreview extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // (TextView)view.getText(); -vzima imeto na itema
                 type = ((TextView) view).getText().toString();
                 String[] strArrForSelItem = testSubtypesByType(type);
                 ArrayAdapter ad1 = new ArrayAdapter(UploadPreview.this, android.R.layout.simple_spinner_item, strArrForSelItem);
@@ -239,7 +237,7 @@ public class UploadPreview extends AppCompatActivity {
     }
 
     private String[] testSubtypesByType(String type) {
-        DBOperations dbOper = new DBOperations(UploadPreview.this);
+        DBOperations dbOper = DBOperations.getInstance(UploadPreview.this);
         Cursor res = dbOper.selectSubtypeForSpecType(type);
 
         ArrayList<String> mStringList = new ArrayList<>();
@@ -254,7 +252,6 @@ public class UploadPreview extends AppCompatActivity {
         return stockArr;
 
     }
-
 
     @Override
     public void onPause() {

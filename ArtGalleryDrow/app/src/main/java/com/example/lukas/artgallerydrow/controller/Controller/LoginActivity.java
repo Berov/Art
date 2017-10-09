@@ -1,4 +1,4 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Controller;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
+import com.example.lukas.artgallerydrow.controller.Model.DBOperations;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,20 +33,18 @@ public class LoginActivity extends AppCompatActivity {
         txtEmailLogin = (EditText) findViewById(R.id.txtLoginEmail);
         txtPassLogin = (TextInputLayout) findViewById(R.id.txtLoginPassword);
 
-//        btnTestSelect = (Button) findViewById(R.id.testSelect);
         btnLogin = (Button) findViewById(R.id.btnLogin);
 
         sendDataForResult();
-//        testView();
-        signUpClick();
 
+        signUpClick();
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RegisterActivity.RESULT_CODE_CANCELED) {
-            Toast.makeText(LoginActivity.this,"Register canceled!!!",Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this,"Register canceled...",Toast.LENGTH_LONG).show();
         }
         if (resultCode == RegisterActivity.RESULT_CODE_REG_OK) {
             if (data != null) {
@@ -66,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                 String type = "";
                 String nameUser = "";
                 String email = "";
-                DBOperations dbOper = new DBOperations(LoginActivity.this);
+                DBOperations dbOper = DBOperations.getInstance(LoginActivity.this);
                 Cursor res = dbOper.testGetUserInfo();
                 if (res.getCount() == 0) {
                     Toast.makeText(LoginActivity.this, "Failed connection with database or no user found",Toast.LENGTH_LONG).show();
@@ -107,17 +106,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Invalid username or password!!", Toast.LENGTH_LONG).show();
                     txtPassLogin.getEditText().setText("");
                 }
-            }
-        });
-    }
-
-    public void testView() {
-        btnTestSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // test to access user profile activity
-                Intent intent2 = new Intent(LoginActivity.this,TempTestActivity.class);
-                startActivity(intent2);
             }
         });
     }

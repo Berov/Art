@@ -1,4 +1,4 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Utils;
 
 /**
  * Created by plame_000 on 29-Sep-17.
@@ -44,14 +44,6 @@ public class GalleryConnector {
         public static final String SELLER_ID = "seller_id";
         public static final String BUYER_ID = "buyer_id";
         public static final String TABLE_NAME = "Items";
-    }
-
-    public static abstract class Pictures{
-        public static final String ID = "id";
-        public static final String ORIGINAL_PIC = "originalPic";
-        public static final String SOLD_PIC = "soldPic";
-        public static final String ITEM_ID = "item_id";
-        public static final String TABLE_NAME = "Pictures";
     }
 
 }

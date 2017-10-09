@@ -1,4 +1,4 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Model;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,10 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
 
@@ -21,7 +19,7 @@ import com.example.lukas.artgallerydrow.R;
 
 public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecyclerViewSeller.ViewHolder> {
 
-    private Cursor mData; // data to show
+    private Cursor mData;
     private LayoutInflater mInflater;
 
     public CustomRecyclerViewSeller(Context ctx, Cursor data){
@@ -31,7 +29,6 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //setvame view-to na custom reda v custom_row_recycler / xml-a na itema
         View view = mInflater.inflate(R.layout.custom_row_recycler,parent,false);
         ViewHolder viewHold = new ViewHolder(view);
         return viewHold;
@@ -64,20 +61,17 @@ public class CustomRecyclerViewSeller extends RecyclerView.Adapter<CustomRecycle
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        // setvash si vsi4ki poleta ot custom_row_recycler(tvoq)
+
         private TextView txtCustomTitle;
         private TextView txtCustomDesc;
         private TextView txtCustomPrice;
         private ImageView imgCustomRow;
         private TextView txtType;
         private TextView txtSubType;
-        private Button test;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            //tuk si im prihvashtash id-tata
             txtCustomTitle = (TextView) itemView.findViewById(R.id.title_row);
             txtCustomDesc = (TextView) itemView.findViewById(R.id.desc_row);
             txtCustomPrice = (TextView) itemView.findViewById(R.id.desc_price);

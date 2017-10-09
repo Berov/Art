@@ -1,4 +1,4 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Utils;
 
 import android.graphics.Bitmap;
 import android.text.TextUtils;

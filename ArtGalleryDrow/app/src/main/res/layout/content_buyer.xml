@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.lukas.artgallerydrow.controller.BuyerActivity"
+    tools:context="com.example.lukas.artgallerydrow.controller.Controller.BuyerActivity"
     tools:showIn="@layout/app_bar_buyer">
 
 

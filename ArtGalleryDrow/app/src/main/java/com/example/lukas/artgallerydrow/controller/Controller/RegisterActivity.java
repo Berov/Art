@@ -1,4 +1,4 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Controller;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,6 +15,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
+import com.example.lukas.artgallerydrow.controller.Model.BackgroundDBTasks;
+import com.example.lukas.artgallerydrow.controller.Model.DBOperations;
+import com.example.lukas.artgallerydrow.controller.Utils.Validator;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -95,7 +98,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // check is this valid check :D
                 if(!(Validator.isValidUsername(s.toString()))){
                     flagUsername = false;
                     txtUser.setError("Invalid field!");
@@ -134,7 +136,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void registerClick() {
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public boolean saveData(String addressString, String userString, String emailString, String pass, String type) {
         boolean flag = false;
-        DBOperations dbOper = new DBOperations(RegisterActivity.this);
+        DBOperations dbOper = DBOperations.getInstance(RegisterActivity.this);
         Cursor res = dbOper.testGetUserInfo();
 
         while (res.moveToNext()) {

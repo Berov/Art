@@ -1,12 +1,10 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Controller;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lukas.artgallerydrow.R;
+import com.example.lukas.artgallerydrow.controller.Model.CustomRecyclerViewBuyer;
+import com.example.lukas.artgallerydrow.controller.Model.DBOperations;
 
 import java.util.ArrayList;
 
@@ -51,10 +51,7 @@ public class BuyerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        // drawer.setDrawerListener(toggle);
         drawer.addDrawerListener(toggle);
-        //drawer.setBackgroundResource(R.color.colorMiddle);
-
 
         toggle.syncState();
 
@@ -63,10 +60,8 @@ public class BuyerActivity extends AppCompatActivity
         navigationView.setBackgroundResource(R.color.colorMiddle);
         navigationView.setItemBackgroundResource(R.color.colorAccent);
 
-
         View v = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         userImage = (ImageView) v.findViewById(R.id.buyer_img_header);
         username = (TextView) v.findViewById(R.id.buyer_name_header);
@@ -79,14 +74,10 @@ public class BuyerActivity extends AppCompatActivity
         String emailFromdb = userData.get(1).toString();
         userMoneyFromdb = userData.get(0).toString();
 
-
         username.setText(usernameFromdb);
         email.setText(emailFromdb);
         //userMoney = getUserMoneyById(userID);
         money.setText("Wallet: " + userMoneyFromdb + "$");
-
-        //money.setText(getIntent().getExtras().getString("money").toString());
-        //TODO add money!!!!!!!!!!!!!!!!!!!!!! check it where are putted to the intent???
 
         byte[] bytes = bytesImage();
         if (bytes == null) {
@@ -100,22 +91,11 @@ public class BuyerActivity extends AppCompatActivity
             userImage.setImageDrawable(round);
         }
 
-//        editProfile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Intent intent1 = new Intent(BuyerActivity.this, UserProfileActivity.class);
-//                intent1.putExtra("userID", userID);
-//                startActivityForResult(intent1, CHANGE_PROFILE);
-//            }
-//        });
-
-
     }
 
     private ArrayList getUserInfoById(int userID) {
 
-        DBOperations dbo = new DBOperations(this);
+        DBOperations dbo = DBOperations.getInstance(this);
         Cursor res = dbo.getInfoForUserByID(userID);
         data = new ArrayList();
         String m = "-1";
@@ -316,7 +296,7 @@ public class BuyerActivity extends AppCompatActivity
 
     private void getItemByType(String type) {
 
-        DBOperations operator = new DBOperations(BuyerActivity.this);
+        DBOperations operator = DBOperations.getInstance(BuyerActivity.this);
         Cursor dbResult = operator.getItemsForSaleByType(type);
         if (dbResult == null) {
             Toast.makeText(getApplicationContext(), "There are no items for sale!", Toast.LENGTH_LONG).show();
@@ -331,7 +311,7 @@ public class BuyerActivity extends AppCompatActivity
 
     private void getItemBySubtype(String subtype) {
 
-        DBOperations operator = new DBOperations(BuyerActivity.this);
+        DBOperations operator = DBOperations.getInstance(BuyerActivity.this);
         Cursor dbResult = operator.getItemsForSaleBySubtype(subtype);
         if (dbResult == null) {
             Toast.makeText(getApplicationContext(), "There are no items for sale!", Toast.LENGTH_LONG).show();
@@ -346,7 +326,7 @@ public class BuyerActivity extends AppCompatActivity
 
 
     private byte[] bytesImage() {
-        DBOperations dbOper = new DBOperations(BuyerActivity.this);
+        DBOperations dbOper = DBOperations.getInstance(BuyerActivity.this);
         Cursor res = dbOper.checkUserForImage(userID);
         byte[] b = null;
         while (res.moveToNext()) {

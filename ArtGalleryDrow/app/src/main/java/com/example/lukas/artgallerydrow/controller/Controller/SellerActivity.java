@@ -1,13 +1,10 @@
-package com.example.lukas.artgallerydrow.controller;
+package com.example.lukas.artgallerydrow.controller.Controller;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -23,13 +20,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.example.lukas.artgallerydrow.R;
+import com.example.lukas.artgallerydrow.controller.Model.CustomRecyclerViewSeller;
+import com.example.lukas.artgallerydrow.controller.Model.DBOperations;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -96,7 +91,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     }
 
     private String getMoneyFromDb(int userID) {
-        DBOperations dbo = new DBOperations(this);
+        DBOperations dbo = DBOperations.getInstance(this);
         Cursor cursor = dbo.getInfoForUserByID(userID);
         String money = "-1";
         while (cursor.moveToNext()){
@@ -106,7 +101,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     }
 
     private byte[] bytesImage(){
-        DBOperations dbOper = new DBOperations(SellerActivity.this);
+        DBOperations dbOper = DBOperations.getInstance(SellerActivity.this);
         Cursor res = dbOper.checkUserForImage(userID);
         byte[] b = null;
         while (res.moveToNext()){
@@ -120,7 +115,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     }
 
     private String getUsername() {
-        DBOperations dbOper = new DBOperations(SellerActivity.this);
+        DBOperations dbOper = DBOperations.getInstance(SellerActivity.this);
         Cursor res = dbOper.getUserName(userID);
         String name = null;
         while (res.moveToNext()){
@@ -152,20 +147,24 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
 
         if (id == R.id.nav_soldItems) {
 
-            DBOperations dbOper = new DBOperations(SellerActivity.this);
-            Cursor res = null;
-            res = dbOper.getSoldItems(userID);
+            DBOperations dbOper = DBOperations.getInstance(SellerActivity.this);
+            Cursor res =  res = dbOper.getSoldItems(userID);
 
             RecyclerView recycler = (RecyclerView) findViewById(R.id.my_recycler_view);
             recycler.setLayoutManager(new LinearLayoutManager(this));
             CustomRecyclerViewSeller adapter = new CustomRecyclerViewSeller(this,res);
-            //add adapter clicklisteners eventualno
             recycler.setAdapter(adapter);
+
         } else if (id == R.id.nav_itemsForSale) {
+
             allItemsForSale(userID);
+
         } else if (id == R.id.nav_addItem) {
+
             openGallery();
+
         } else if(id == R.id.nav_profile_settings){
+
             ArrayList builder = getUserInfo(userID);
             Intent intent1 = new Intent(SellerActivity.this,UserProfileActivity.class);
             intent1.putExtra("userID",userID);
@@ -173,10 +172,13 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
             intent1.putExtra("address", builder.get(1).toString());
             intent1.putExtra("pass", builder.get(2).toString());
             startActivityForResult(intent1, CHANGE_PROFILE);
+
         } else if(id == R.id.nav_logout){
+
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
             finish();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.seller_drow_layout);
@@ -185,7 +187,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     }
 
     private ArrayList getUserInfo(int userID) {
-        DBOperations dbOper = new DBOperations(this);
+        DBOperations dbOper = DBOperations.getInstance(this);
         Cursor res = dbOper.getInfoForUserByID(userID);
         ArrayList builder = new ArrayList();
         while (res.moveToNext()){
@@ -197,7 +199,7 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
     }
 
     private void allItemsForSale(int id) {
-        DBOperations dbOper = new DBOperations(SellerActivity.this);
+        DBOperations dbOper = DBOperations.getInstance(SellerActivity.this);
         Cursor res = dbOper.gelAllItems(id);
 
         if(res == null){
@@ -262,17 +264,17 @@ public class SellerActivity extends AppCompatActivity implements NavigationView.
 
                 }catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Unable to open image...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Unable to open image...", Toast.LENGTH_SHORT).show();
                 }
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
+                Toast.makeText(getApplicationContext(),"Something wrong with cropping...",Toast.LENGTH_SHORT).show();
             }
         }
 
         if(requestCode == CHANGE_PROFILE){
             if(resultCode == RESULT_CANCELED){
-                Toast.makeText(getApplicationContext(), "You canceled updates..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Canceled updates..", Toast.LENGTH_SHORT).show();
             }else if(resultCode == RESULT_OK){
                 recreate();
             }
