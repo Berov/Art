@@ -32,11 +32,11 @@ public class LoginActivity extends AppCompatActivity {
         txtEmailLogin = (EditText) findViewById(R.id.txtLoginEmail);
         txtPassLogin = (TextInputLayout) findViewById(R.id.txtLoginPassword);
 
-        btnTestSelect = (Button) findViewById(R.id.testSelect);
+//        btnTestSelect = (Button) findViewById(R.id.testSelect);
         btnLogin = (Button) findViewById(R.id.btnLogin);
 
         sendDataForResult();
-        testView();
+//        testView();
         signUpClick();
 
 

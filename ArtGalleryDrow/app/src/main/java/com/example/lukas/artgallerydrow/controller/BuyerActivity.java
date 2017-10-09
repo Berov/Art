@@ -37,7 +37,7 @@ public class BuyerActivity extends AppCompatActivity
     public static final int CHANGE_PROFILE = 1;
     private TextView money;
     private String userMoneyFromdb;
-
+    private ArrayList data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,7 @@ public class BuyerActivity extends AppCompatActivity
 
         View v = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
+
 
         userImage = (ImageView) v.findViewById(R.id.buyer_img_header);
         username = (TextView) v.findViewById(R.id.buyer_name_header);
@@ -116,13 +117,14 @@ public class BuyerActivity extends AppCompatActivity
 
         DBOperations dbo = new DBOperations(this);
         Cursor res = dbo.getInfoForUserByID(userID);
-        ArrayList data = new ArrayList();
+        data = new ArrayList();
         String m = "-1";
         while (res.moveToNext()) {
             data.add(res.getString(6));
-            data.add(res.getString(3));
-            data.add(res.getString(2));
-            //m = res.getString(6);
+            data.add(res.getString(3)); //email
+            data.add(res.getString(2)); //name
+            data.add(res.getString(1)); // adress
+            data.add(res.getString(4)); // passs
         }
 
         return data;
@@ -170,6 +172,9 @@ public class BuyerActivity extends AppCompatActivity
         if (id == R.id.buyer_edit_profile) {
             Intent intent1 = new Intent(BuyerActivity.this, UserProfileActivity.class);
             intent1.putExtra("userID", userID);
+            intent1.putExtra("name", data.get(2).toString());
+            intent1.putExtra("address", data.get(3).toString());
+            intent1.putExtra("pass", data.get(4).toString());
             startActivityForResult(intent1, CHANGE_PROFILE);
             return true;
         } else if (id == R.id.buyer_logout) {

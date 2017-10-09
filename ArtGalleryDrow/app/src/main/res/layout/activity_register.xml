@@ -4,59 +4,61 @@
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:fillViewport="true">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:padding="16dp"
         tools:context="com.example.plame_000.gallery.RegisterActivity">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="Register"
-            android:textSize="36dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"/>
+            android:textColor="@color/colorDark"
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/txtAddress"
-            android:maxLines="1"
-            android:maxLength="60"
-            android:hint="Cuntry, City, Address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:hint="Country, City, Post code,. Address"
+            android:maxLength="60"
+            android:maxLines="1" />
 
         <EditText
             android:id="@+id/txtUsername"
-            android:maxLines="1"
-            android:maxLength="35"
-            android:hint="Username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:hint="Username"
+            android:maxLength="35"
+            android:maxLines="1" />
 
         <EditText
             android:id="@+id/txtEmail"
-            android:hint="E-mail"
-            android:maxLines="1"
-            android:maxLength="40"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:hint="E-mail"
+            android:maxLength="40"
+            android:maxLines="1" />
 
 
         <android.support.design.widget.TextInputLayout
@@ -66,16 +68,16 @@
             app:passwordToggleEnabled="true">
 
             <android.support.design.widget.TextInputEditText
-                android:hint="Password"
-                android:maxLines="1"
-                android:maxLength="20"
-                android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -86,16 +88,16 @@
             app:passwordToggleEnabled="false">
 
             <android.support.design.widget.TextInputEditText
-                android:hint="Confirm password"
-                android:maxLines="1"
-                android:maxLength="20"
-                android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:hint="Confirm password"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -111,20 +113,20 @@
                 android:id="@+id/radioSeller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="Seller"
-                android:layout_marginLeft="10dp"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
             <RadioButton
                 android:id="@+id/radioBuyer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Buyer"
                 android:layout_marginLeft="10dp"
+                android:layout_weight="1"
                 android:checked="true"
-                android:textSize="20dp"/>
+                android:text="Buyer"
+                android:textSize="20dp" />
 
 
         </RadioGroup>
@@ -133,30 +135,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorBright"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:text="Cancel" />
+                android:layout_weight="1"
+                android:background="@color/colorBright"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/colorDark"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btnRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorBright"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:text="Register" />
+                android:layout_weight="1"
+                android:background="@color/colorBright"
+                android:text="Register"
+                android:textAllCaps="false"
+                android:textColor="@color/colorDark"
+                android:textSize="18sp" />
 
         </LinearLayout>
 

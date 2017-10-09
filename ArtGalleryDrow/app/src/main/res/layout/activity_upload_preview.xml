@@ -20,6 +20,8 @@
         android:id="@+id/txtTitlePreview"
         android:layout_weight="1"
         android:hint="title"
+        android:maxLength="40"
+        android:maxLines="1"
         android:paddingTop="1dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"/>
@@ -31,6 +33,8 @@
         android:layout_weight="1"
         android:paddingTop="1dp"
         android:hint="price"
+        android:maxLength="13"
+        android:maxLines="1"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"/>
 
@@ -49,6 +53,8 @@
         android:id="@+id/txtDescPreview"
         android:hint="description"
         android:paddingLeft="10dp"
+        android:maxLength="40"
+        android:maxLines="3"
         android:paddingRight="10dp"
         android:layout_weight="3"/>
     <LinearLayout

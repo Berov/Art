@@ -20,6 +20,13 @@
         android:scrollbars="vertical" />
 
 
+    <TextView
+        android:id="@+id/hellow_buyer_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"/>
+
+
     <!--<TextView-->
     <!--android:id="@+id/temp_test"-->
     <!--android:layout_width="368dp"-->
