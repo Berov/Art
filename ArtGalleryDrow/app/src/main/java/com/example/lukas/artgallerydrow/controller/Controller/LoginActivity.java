@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RegisterActivity.RESULT_CODE_CANCELED) {
-            Toast.makeText(LoginActivity.this,"Register canceled...",Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Register canceled...", Toast.LENGTH_LONG).show();
         }
         if (resultCode == RegisterActivity.RESULT_CODE_REG_OK) {
             if (data != null) {
@@ -68,13 +68,13 @@ public class LoginActivity extends AppCompatActivity {
                 DBOperations dbOper = DBOperations.getInstance(LoginActivity.this);
                 Cursor res = dbOper.testGetUserInfo();
                 if (res.getCount() == 0) {
-                    Toast.makeText(LoginActivity.this, "Failed connection with database or no user found",Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Failed connection with database or no user found", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 while (res.moveToNext()) {
 
-                    if(txtEmailLogin.getText().toString().equals(res.getString(3)) && txtPassLogin.getEditText().getText().toString().equals(res.getString(4))){
+                    if (txtEmailLogin.getText().toString().equals(res.getString(3)) && txtPassLogin.getEditText().getText().toString().equals(res.getString(4))) {
                         flag = true;
                         userID = res.getInt(0);
                         nameUser = res.getString(2);
@@ -84,25 +84,21 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                 }
-                if(flag) {
-                    if(type.equals("Seller")){
-                        Intent intent = new Intent(LoginActivity.this,SellerActivity.class);
-                        intent.putExtra("userID",userID);
-                        intent.putExtra("userType",type);
-                        intent.putExtra("User", nameUser);
-                        intent.putExtra("email", email);
-                        startActivity(intent);
-                        finish();
-                    }else{
-                        Intent intent = new Intent(LoginActivity.this,BuyerActivity.class);
-                        intent.putExtra("userID",userID);
-                        intent.putExtra("userType",type);
-                        intent.putExtra("User", nameUser);
-                        intent.putExtra("email", email);
-                        startActivity(intent);
-                        finish();
+                if (flag) {
+                    Intent intent;
+                    if (type.equals("Seller")) {
+                        intent = new Intent(LoginActivity.this, SellerActivity.class);
+                    } else {
+                        intent = new Intent(LoginActivity.this, BuyerActivity.class);
                     }
-                }else{
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("userType", type);
+                    intent.putExtra("User", nameUser);
+                    intent.putExtra("email", email);
+                    startActivity(intent);
+                    finish();
+
+                } else {
                     Toast.makeText(getApplicationContext(), "Invalid username or password!!", Toast.LENGTH_LONG).show();
                     txtPassLogin.getEditText().setText("");
                 }
